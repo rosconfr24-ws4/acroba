@@ -1,0 +1,12 @@
+<launch>
+<!-- Sample with parallel gripper-->
+<arg name="tcp_ip" default="localhost"/>
+<arg name="node_start_delay" default="1.0" />  
+
+<include file="$(find ros_tcp_endpoint)/launch/endpoint.launch">
+    <arg name="tcp_ip" value="$(arg tcp_ip)"/>
+</include>
+
+<node name="acroba_gym_test" pkg="acroba_gym_test" type="ros_gym_test.py" output="screen" required="true"
+ launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' " />
+</launch>

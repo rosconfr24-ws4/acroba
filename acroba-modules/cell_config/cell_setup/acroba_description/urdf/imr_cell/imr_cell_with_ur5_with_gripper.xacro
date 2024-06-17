@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="imr_cell">
+
+  <link name="world"/>
+   
+  <!-- import robot + parameter if needed -->
+  <xacro:include filename="$(find ur_description)/urdf/ur5.xacro"/>
+  <!-- <xacro:ur5_robot prefix="" /> -->
+  
+  <!-- defining robot position in world frame -->  
+  <joint name="imr_base_joint" type="fixed">
+    <parent link="world" />
+    <child link = "base_link" />
+    <origin xyz= "0.163 -0.72 0.845" rpy= "0 0 0"/>
+  </joint>
+
+  <xacro:include filename="$(find acroba_description)/urdf/gripperRG2/gripperRG2.xacro"/>
+  <xacro:gripperRG2 prefix="" connected_to="tool0"/>
+  
+  
+  <!-- defining camera position in world frame -->  
+  <link name="base_camera"/>
+  <joint name="camera_joint" type="fixed">
+    <parent link="world"/>
+    <child link="base_camera"/>
+    <origin xyz= "0.5256 -0.3543 1.802" rpy= "0 ${pi*0.5} 0"/>
+  </joint>
+  
+  <link name="optical_frame"/>
+  <joint name="optical_joint" type="fixed">
+    <origin xyz="0.065 0.062 0.0445" rpy="-${0.5*pi} 0 -${0.5*pi + 8.5/180*pi}"/>
+    <parent link="base_camera"/>
+    <child link="optical_frame"/>
+  </joint>
+  
+  <!-- import cell + define parameter -->
+  <!-- 
+  <link name = "smartshift">
+    <visual>
+      <origin xyz= "0 0 0" rpy= "0 0 0"/>
+      <geometry>
+        <mesh filename="package://acroba_description/meshes/imr_cell/smartshift_rotated.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz= "0 0 0" rpy= "0 0 0"/>
+      <geometry>
+        <mesh filename="package://acroba_description/meshes/imr_cell/smartshift_rotated.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="shift_joint" type="fixed">
+    <parent link="tool0" />
+    <child link = "smartshift" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 3.141592" />
+  </joint>
+
+  <joint name="shift_tool_joint" type="fixed">
+    <parent link="smartshift" />
+    <child link = "base_tool" />
+    <origin xyz="0.0 0.0 0.0908" rpy="0.0 0.0 0.0" />
+  </joint>
+  -->
+  
+  
+  <link name = "imr_cell">
+    <visual>
+      <origin xyz= "0 0 0" rpy= "0 0 0"/>
+      <geometry>
+        <mesh filename="package://acroba_description/meshes/imr_cell/imr_cell_visual.dae"/>
+      </geometry>
+      <material name="cell">
+        <color rgba="0.5 0.5 0.5 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz= "0 0 0" rpy= "0 0 0"/>
+      <geometry>
+        <mesh filename="package://acroba_description/meshes/imr_cell/imr_cell_collision.dae"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="world_cell" type="fixed">
+    <parent link="world" />
+    <child link = "imr_cell" />
+    <origin xyz= "0 0 0" rpy= "0 0 0"/>
+  </joint>
+  
+</robot>
+
+  
+ 

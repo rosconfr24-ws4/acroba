@@ -1,0 +1,15 @@
+env/.pyenv/
+**/__pycache__/
+temp/
+output/
+skills_utils/scripts/skills_utils/inspection/cad_to_views/test/
+skills_utils/scripts/skills_utils/inspection/3DReconstruction/reconstruction_system/dataset/
+skills_utils/scripts/skills_utils/grasp_location/trained-models/HRG-jacquard-rgbd/
+scripts/utils/inspection/stl_to_views/test/
+scripts/utils/inspection/3DReconstruction/reconstruction_system/dataset/
+acroba_camaras
+acroba_camaras.pub
+acroba_camaras_pw
+acroba_camaras_pw.pub
+*.pt
+*.pth

@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:macro name="zivid_camera" params="prefix">
+        <!-- Zivid Properties -->
+        <xacro:property name="M_PI" value="3.1415926535897931" />
+        <xacro:include filename="$(find acroba_resources)/urdf/sensors/zivid/zivid.gazebo.xacro"/>
+        
+        <!-- Zivid Base Link -->
+        <link name="${prefix}base_camera">
+            <!-- Visuals -->
+            <visual>
+                <origin xyz="-0.0030 -0.0758 0.0445" rpy="${0.5*M_PI} 0 ${0.5*M_PI}"/>
+                <material name="blue">
+                    <color rgba="0.25 0.25 0.25 1"/>
+                </material>
+                <geometry>
+                    <mesh filename="package://acroba_resources/meshes/sensors/zivid_one_plus/visual/zivid_one_plus.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </visual>
+
+            <!-- Collisions -->
+            <collision>
+                <origin xyz="-0.0030 -0.0758 0.0445" rpy="${0.5*M_PI} 0 ${0.5*M_PI}"/>
+                <geometry>
+                    <mesh filename="package://acroba_resources/meshes/sensors/zivid_one_plus/collision/zivid_one_plus.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+
+            <!-- Inertia-->
+            <inertial>
+                <origin xyz="-0.00936000000 -0.00003000000 -0.00273000000" rpy="0 0 0"/>
+                <mass value="2"/>
+                <inertia ixx="0.00000429247" ixy="0.00000000000" ixz="0.00000002565"
+                        iyy="0.00000008027" iyz="0.00000000000"
+                        izz="0.00000427339"/>
+            </inertial>
+        </link>
+
+        <!-- Zivid Optical (Measurement) and Projector Frames -->
+        <link name="${prefix}optical_frame"/>
+        <link name="${prefix}projector_frame"/>
+        <!-- Zivid Optical (Measurement) and Projector Joints -->
+        <joint name="${prefix}optical_joint" type="fixed">
+            <origin xyz="0.065 0.062 0.0445" rpy="-${0.5*M_PI} 0 -${0.5*M_PI + 8.5/180*M_PI}"/>
+            <parent link="${prefix}base_camera"/>
+            <child link="${prefix}optical_frame"/>
+        </joint>
+
+        <joint name="${prefix}projector_joint" type="fixed">
+            <origin xyz="-0.0030 -0.0758 0.0445" rpy="-${0.5*M_PI} 0 -${0.5*M_PI}"/>
+            <parent link="${prefix}base_camera"/>
+            <child link="${prefix}projector_frame"/>
+        </joint>
+        <!--joint for the gazebo plugin-->
+        <link name="${prefix}gazebo_cam_link"/>
+        <joint name="${prefix}gazebo_joint" type="fixed">
+            <origin xyz="0.0 0.0 0.0" rpy="${0.5*M_PI} -${0.5*M_PI} 0"/>
+            <parent link="${prefix}optical_frame"/>
+            <child link="${prefix}gazebo_cam_link"/>
+        </joint>
+    </xacro:macro>
+</robot>

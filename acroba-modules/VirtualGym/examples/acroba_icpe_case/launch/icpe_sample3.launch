@@ -1,0 +1,9 @@
+<launch>
+<!--Load urdf of the robot-->
+<param name="robot_description" textfile="$(find acroba_resources)/urdf/icpe_cell3.urdf"/>
+
+<param name="base_robot" type="string" value="world" />
+<param name="end_tool" type="string" value="end_tool" />
+
+<node name="icpe3_pipeline" pkg="acroba_icpe_case" type="icpe3_sample.py" output="screen"/>
+</launch>

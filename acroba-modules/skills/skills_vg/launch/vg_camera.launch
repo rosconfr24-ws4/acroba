@@ -1,0 +1,5 @@
+<launch>
+    <!-- primitives -->
+    <node name="GetRGBDVG" pkg="skills_vg" type="pr_get_rgbd_vg.py" respawn="true" output="screen"/>
+    <node name="DepthToPointcloud" pkg="skills" type="pr_depth_to_pointcloud.py" respawn="true" output="screen"/>
+</launch>

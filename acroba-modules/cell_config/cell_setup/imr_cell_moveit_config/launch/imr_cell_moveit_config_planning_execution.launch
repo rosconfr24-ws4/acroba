@@ -1,0 +1,28 @@
+<launch>
+  <arg name="vg" default="false" />
+  <arg name="sim" default="false" />
+  <arg name="debug" default="false" />
+  <arg name="use_rviz" default="true" />
+
+  <!-- By default, we will load or override the robot_description -->
+  <arg name="load_robot_description" default="true"/>
+
+  <!-- Remap follow_joint_trajectory -->
+  <remap if="$(arg vg)" from="/scaled_pos_traj_controller/follow_joint_trajectory" to="/unity_robot/follow_joint_trajectory"/>
+  
+  <!-- Given the published joint states, publish tf for the robot links -->
+  <node if="$(arg vg)" name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
+
+  <!-- Launch moveit -->
+  <include file="$(find imr_cell_moveit_config)/launch/move_group.launch">
+    <arg name="load_robot_description" value="$(arg load_robot_description)"/>
+  </include>
+  
+    
+  <!-- Run Rviz and load the default config to see the state of the move_group node -->
+  <include file="$(dirname)/moveit_rviz.launch" if="$(arg use_rviz)">
+    <arg name="rviz_config" value="$(dirname)/moveit.rviz"/>
+    <arg name="debug" value="$(arg debug)"/>
+  </include>
+
+</launch>

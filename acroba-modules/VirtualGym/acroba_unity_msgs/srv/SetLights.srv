@@ -1,0 +1,3 @@
+acroba_unity_msgs/UnityLight[] lights
+---
+acroba_unity_msgs/UnityErrorCode status

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="rosmal_cell" >
+
+<xacro:include filename="$(find acroba_resources)/urdf/ur10_macro.xacro" />
+<xacro:include filename="$(find acroba_resources)/urdf/support_rosmal_macro.xacro" />
+<xacro:include filename="$(find acroba_resources)/urdf/pgc140_macro.xacro" />
+
+<xacro:ur10 prefix=""/>
+<xacro:support_rosmal prefix=""/>
+<xacro:pgc140 prefix=""/>
+
+<link name="world" />
+<joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link="base_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+</joint>
+
+<joint name="tool_extension_joint" type="fixed">
+    <parent link="tool0" />
+    <child link="extension_base" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+</joint>
+
+<joint name="extension_gripper_joint" type="fixed">
+    <parent link="extension_tool0" />
+    <child link="base_tool" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+</joint>
+
+
+</robot>

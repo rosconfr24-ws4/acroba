@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro"
+       name="supportikor1" >
+
+
+  <xacro:property name="prefix" value="" />
+
+  <!-- support -->
+  <xacro:include filename="$(find acroba_resources)/urdf/support_rosmal_macro.xacro" />
+  <xacro:support_rosmal prefix="${prefix}"/>
+
+  <link name="world" />
+  <joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link="extension_base" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+
+</robot>

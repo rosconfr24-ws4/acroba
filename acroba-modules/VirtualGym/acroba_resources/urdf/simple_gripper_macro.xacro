@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+<xacro:macro name="simple_gripper" params="prefix">
+
+    <xacro:property name="body_base_height" value="0.1"/>
+    <xacro:property name="body_base_radius" value="0.02"/>
+    <xacro:property name="finger_height" value="0.05"/>
+    <xacro:property name="finger_width" value="0.01"/>
+    <xacro:property name="finger_depth" value="0.01"/>
+    <xacro:property name="aperture" value="0.12"/><!--from dataset 0.035-->
+    <xacro:property name="maxeffort" value="50"/>
+
+    <material name="gripper_grey">
+    <color rgba="0.45 0.45 0.45 1.0"/>
+  </material>
+
+  <xacro:macro name="inertia_cylinder" params="mass height radius">
+    <inertial>
+      <mass value="${mass}"/>
+      <inertia ixx="${mass*(height*height+3*radius*radius)/12}" ixy="0.0" ixz="0.0"
+        iyy="${mass*(height*height+3*radius*radius)/12}" iyz="0.0"
+        izz="${mass*(radius*radius)/12}"/>
+    </inertial>
+  </xacro:macro>
+    <xacro:macro name="inertia_cuboid" params="mass width height depth">
+    <inertial>
+      <mass value="${mass}"/>
+      <inertia ixx="${mass*(height*height+depth*depth)/12}" ixy="0.0" ixz="0.0"
+        iyy="${mass*(width*width+depth*depth)/12}" iyz="0.0"
+        izz="${mass*(width*width+height*height)/12}"/>
+    </inertial>
+  </xacro:macro>
+
+<link name="${prefix}base_tool">
+    <visual>
+      <origin xyz="0 0 ${0.5*body_base_height}" rpy="0.0 0.0 0.0"/>
+      <geometry>
+        <cylinder length = "${body_base_height}" radius = "${body_base_radius}" />
+      </geometry>
+      <material name="gripper_grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 ${0.5*body_base_height}" rpy="0.0 0.0 0.0"/>
+      <geometry>
+        <cylinder length = "${body_base_height}" radius = "${body_base_radius}" />
+      </geometry>
+    </collision>
+    <xacro:inertia_cylinder mass="1" height="${body_base_height}" radius="${body_base_radius}"/>
+</link>
+
+<link name="${prefix}finger_1">
+    <visual>
+      <origin xyz="0 0 ${0.5*finger_height}" rpy="0.0 0.0 0.0"/>
+      <geometry>
+        <box size = "${finger_width} ${finger_depth} ${finger_height}" />
+      </geometry>
+      <material name="gripper_grey"/>
+    </visual>
+    <collision>
+       <origin xyz="0 0 ${0.5*finger_height}" rpy="0.0 0.0 0.0"/>
+      <geometry>
+        <box size = "${finger_width} ${finger_depth} ${finger_height}" />
+      </geometry>
+    </collision>
+    <xacro:inertia_cuboid mass="0.2" width="${finger_width}" height="${finger_height}" depth="${finger_depth}"/>
+</link>
+
+<link name="${prefix}finger_2">
+    <visual>
+      <origin xyz="0 0 ${0.5*finger_height}" rpy="0.0 0.0 0.0"/>
+      <geometry>
+        <box size = "${finger_width} ${finger_depth} ${finger_height}" />
+      </geometry>
+      <material name="gripper_grey"/>
+    </visual>
+    <collision>
+       <origin xyz="0 0 ${0.5*finger_height}" rpy="0.0 0.0 0.0"/>
+      <geometry>
+        <box size = "${finger_width} ${finger_depth} ${finger_height}" />
+      </geometry>
+    </collision>
+    <xacro:inertia_cuboid mass="0.2" width="${finger_width}" height="${finger_height}" depth="${finger_depth}"/>
+</link>
+
+<joint name="${prefix}joint_finger_1" type="prismatic">
+	<origin xyz="${-1*body_base_radius+finger_width*0.5} 0 ${body_base_height}" rpy="0 0 0"/>
+    <parent link="${prefix}base_tool"/>
+    <child link="${prefix}finger_1"/>
+	<axis xyz="1 0 0"/>
+	<limit effort="${maxeffort}" lower="${-1*aperture*0.5}" upper="${body_base_radius-finger_width*0.5}" velocity="10"/>
+  </joint>
+
+ <joint name="${prefix}joint_finger_2" type="prismatic">
+	<origin xyz="${body_base_radius-finger_width*0.5} 0 ${body_base_height}" rpy="0 0 0"/>
+    <parent link="${prefix}base_tool"/>
+    <child link="${prefix}finger_2"/>
+	<axis xyz="-1 0 0"/>
+	<limit effort="${maxeffort}" lower="${-1*aperture*0.5}" upper="${body_base_radius-finger_width*0.5}" velocity="10"/>
+  </joint>
+
+  <link name="gripping_point" />
+  <joint name="joint_gripping" type="fixed">
+	<origin rpy="0 0 0" xyz="0. 0 ${body_base_height + finger_height}"/>
+    <parent link="${prefix}base_tool"/>
+    <child link="${prefix}gripping_point"/>
+  </joint>
+
+<!-- Gazebo staff-->
+<!-- Add gazebo colors-->
+  <gazebo reference="${prefix}base_tool">
+    <material>Gazebo/FlatBlack</material>
+  </gazebo> 
+  <gazebo reference="${prefix}base_finger_1">
+    <material>Gazebo/FlatBlack</material>
+  </gazebo> 
+  <gazebo reference="${prefix}base_finger_2">
+    <material>Gazebo/FlatBlack</material>
+  </gazebo> 
+  <gazebo reference="${prefix}finger_1">
+    <material>Gazebo/FlatBlack</material>
+  </gazebo> 
+  <gazebo reference="${prefix}finger_2">
+    <material>Gazebo/FlatBlack</material>
+  </gazebo> 
+
+    <!-- Transmissions-->
+  <transmission name="${prefix}joint_finger1_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${prefix}joint_finger_1">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${prefix}joint_base_finger_1_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+   <transmission name="${prefix}joint_finger2_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${prefix}joint_finger_2">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${prefix}joint_base_finger_2_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+
+</xacro:macro>
+</robot>

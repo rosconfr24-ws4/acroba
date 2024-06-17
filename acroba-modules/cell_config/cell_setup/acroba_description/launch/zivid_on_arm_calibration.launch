@@ -1,0 +1,42 @@
+<launch>
+  <!-- The rpy in the comment uses the extrinsic XYZ convention, which is the same as is used in a URDF. See
+       http://wiki.ros.org/geometry2/RotationMethods and https://en.wikipedia.org/wiki/Euler_angles for more info. -->
+  <!-- xyz="-0.0647489 -0.114678 0.161235" rpy="3.13299 2.88904 3.13971" -->
+  <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="camera_link_broadcaster"
+      args="-0.0647489 -0.114678 0.161235   -0.00438568 0.125936 -0.00147396 0.992028 tool0 zivid_optical_frame" /> -->
+  <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="camera_link_broadcaster"
+      args="-0.0692786 -0.112389 0.164597   -0.00610247 0.130419 -0.00234439 0.991437 tool0 zivid_optical_frame" /> -->
+
+<!-- ___________________________________________ BEFORE CAMERA REPAIRS ____________________________________________ -->
+
+  <!-- HALCON -->    
+  <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="camera_link_broadcaster"
+        args="-0.0710256 -0.114282 0.155029 -0.0014216 0.1292476 -0.0017542 0.9916098 tool0 zivid_optical_frame" /> -->
+
+  <!-- ZIVID Test 1 ZYX-->    
+  <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="camera_link_broadcaster"
+        args="-0.070205643 -0.122679085 0.158872696 -0.0050988 0.1312869 0.0048284 0.9913195 tool0 zivid_optical_frame" /> -->
+  <!-- ZIVID Test 2 ZYX-->    
+  <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="camera_link_broadcaster"
+        args="-0.06918472 -0.122727 0.1585065 -0.0061347, 0.1301954, 0.0006211, 0.9914692 tool0 zivid_optical_frame" /> -->
+
+  <!-- Trial and error 1 -->
+  <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="camera_link_broadcaster"
+        args="-0.070 -0.112 0.157 -0.014014 0.1299411 -0.0003916 0.9914226 tool0 zivid_optical_frame" /> -->
+  <!-- MoveIT calibration -->
+  <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="camera_link_broadcaster"
+      args="-0.0670367 -0.116644 0.146079   -0.0144611 0.125481 -0.00254345 0.991987 tool0 zivid_optical_frame" /> -->
+
+<!-- ___________________________________________ AFTER CAMERA REPAIRS ____________________________________________ -->
+
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="camera_link_broadcaster"
+      args="-0.0667998 -0.117777 0.141319   -0.0142441 0.121921 -0.00188381 0.992436 tool0 zivid_optical_frame"/>
+     
+      
+   <!-- Zividstudio calibration -->
+  <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="camera_link_broadcaster"
+      args="-0.0742282 -0.116644 0.146079   -0.0144611 0.125481 -0.00254345 0.991987 tool0 zivid_optical_frame" /> -->    
+  <node pkg="tf2_ros" type="static_transform_publisher" name="zivid_optical_frame_to_cameraCenter"
+      args="0.065 0.0 0.016 0.014 -0.122 0.002 0.992 zivid_optical_frame zivid_center_frame" />
+</launch>

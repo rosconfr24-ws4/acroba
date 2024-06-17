@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="ur5_zivid_on_arm">
+
+  <xacro:include filename="$(find acroba_description)/urdf/imr_cell_inspection/imr_cell_inspection.xacro"/>
+
+  <xacro:include filename="$(find ur_description)/urdf/ur5.xacro"/>
+  <!-- <xacro:ur5_robot prefix="" /> -->
+  <xacro:include filename="$(find acroba_description)/urdf/gripperRG2/gripperRG2.xacro"/>
+  <xacro:gripperRG2 prefix="" connected_to="tool0"/>
+  
+  <xacro:include filename="$(find ur_description)/urdf/camera_zivid/camera_zivid.xacro"/>
+  <xacro:camera_zivid prefix="" connected_to="tool0"/>
+
+</robot>

@@ -1,0 +1,29 @@
+
+<launch>
+  <arg name="vg" default="true" />
+
+  <!-- simaulation parameter -->
+  <arg name="sim" default="false" />
+  <arg name="debug" default="false" />
+  <param name="/use_sim_time" value="true"/>
+  
+  <!-- By default, we will load or override the robot_description -->
+  <arg name="load_robot_description" default="true"/>
+
+  <!-- Remap follow_joint_trajectory -->
+  <remap if="$(arg sim)" from="/scaled_pos_traj_controller/follow_joint_trajectory" to="/arm_controller/follow_joint_trajectory"/>
+  <remap if="$(arg vg)" from="/scaled_pos_traj_controller/follow_joint_trajectory" to="/unity_robot/follow_joint_trajectory"/>
+  <!-- <remap if="$(arg vg)" from="/unity_robot/follow_joint_trajectory" to="/scaled_pos_traj_controller/follow_joint_trajectory"/> -->
+  
+  <!-- Given the published joint states, publish tf for the robot links -->
+  <node if="$(arg vg)" name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
+
+  <!-- Launch moveit -->
+  <include file="$(find imr_cell_moveit_config)/launch/move_group.launch">
+    <arg name="debug" default="$(arg debug)" />
+    <arg name="load_robot_description" value="$(arg load_robot_description)"/>
+  </include>
+
+  <node type="rviz" name="rviz" pkg="rviz" args="-d $(find imr_cell_moveit_config)/rviz/cobotic_cell_vg.rviz"/> 
+
+</launch>

@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<robot  xmlns:xacro="http://www.ros.org/xacro">
+  
+
+  <xacro:macro name="small_schmalz" params="prefix">
+
+    <material name="blue_pump">
+      <color rgba="0 0 0.8 1.0"/>
+   </material>
+
+   <material name="grey_pump_schmalz">
+      <color rgba="0.5 0.5 0.5 1.0"/>
+   </material>
+
+
+    <link name="${prefix}_vacuum">
+      <visual>
+        <origin xyz="3.141592  0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://acroba_resources/meshes/schmalz/schmalz_cobopump.dae" scale="0.0001 0.0001 0.0001"/>
+        </geometry>
+        <material name="grey_pump_schmalz"/>
+      </visual>
+      <collision>
+        <origin xyz="3.141592  0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://acroba_resources/meshes/schmalz/schmalz_cobopump_convexhull.stl" scale="0.0001 0.0001 0.0001"/>
+        </geometry>
+      </collision>
+      <inertial>
+          <mass value="1.49"/>
+          <inertia ixx="0.0037" ixy="0.0" ixz="0.0" iyy="0.0037" iyz="0.0" izz="0.0146"/>
+    </inertial>
+    </link>
+
+
+<!-- ROS-Industrial 'base' frame: base_link to Fanuc World Coordinates transform -->
+     <link name="${prefix}base_tool" />
+    <joint name="${prefix}base_vacuum_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="${prefix}base_tool"/>
+      <child link="${prefix}_vacuum"/>
+    </joint>
+
+    <!-- End frame to be positioned-->
+    <link name="${prefix}end_tool"/>
+    <joint name="${prefix}_end_tool_joints" type="fixed">
+      <origin xyz="0 0 0.3415" rpy="0 0 0"/>
+      <parent link="${prefix}_vacuum"/>
+      <child link="${prefix}end_tool"/>
+    </joint>
+
+  </xacro:macro>
+</robot>

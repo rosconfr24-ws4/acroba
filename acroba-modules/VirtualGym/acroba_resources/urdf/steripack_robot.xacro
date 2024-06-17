@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<robot  name="steripack_robot" xmlns:xacro="http://wiki.ros.org/xacro">
+
+
+  <xacro:include filename="$(find acroba_resources)/urdf/ur10_macro.xacro" />
+  <xacro:include filename="$(find acroba_resources)/urdf/schunk_EGP40_long_finger_macro.xacro" />
+  <!-- arm -->
+  <xacro:ur10 prefix=""/>
+  <xacro:schunk_egp40_long prefix="" width="0.05"/>
+
+  <link name="world"/>
+  <joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link = "base_link" />
+    <origin xyz= "0 0 0" rpy= "0 0 0"/>
+  </joint>
+
+
+    <joint name="tool_joint" type="fixed">
+    <parent link="tool0" />
+    <child link = "base_tool" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+</robot>

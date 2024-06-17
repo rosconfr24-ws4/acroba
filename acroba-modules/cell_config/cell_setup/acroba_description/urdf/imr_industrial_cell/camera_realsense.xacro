@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="camera_realsense">
+
+  <xacro:macro name="camera_realsense" params="prefix connected_to">
+
+    <link name="${prefix}camera_tcp"/>
+
+    <!-- TCP frame -->
+    <joint name="${prefix}camera_tcp_joint" type="fixed">
+      <origin xyz="-0.054 0.034 -0.149" rpy="0.001 0.022 -1.546"/>
+      <parent link="${connected_to}"/>
+      <child link="${prefix}camera_tcp"/>
+    </joint>
+    
+  </xacro:macro>
+</robot>

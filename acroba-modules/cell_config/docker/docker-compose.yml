@@ -1,0 +1,6 @@
+services:
+  
+  cell-config:
+    privileged: true
+    volumes: 
+      - "/dev/bus/usb:/dev/bus/usb"

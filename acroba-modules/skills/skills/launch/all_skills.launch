@@ -1,0 +1,6 @@
+<launch>
+    <!-- primitives -->
+    <node name="GenerateTrajectory" pkg="skills" type="pr_generate_trajectory" respawn="true" output="screen"/>
+    <node name="ExecuteTrajectory" pkg="skills" type="pr_execute_trajectory" respawn="true" output="screen"/>
+    <node name="MoveTo" pkg="skills" type="sk_move_to.py" respawn="true" output="screen"/>
+</launch>

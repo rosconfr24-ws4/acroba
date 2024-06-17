@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="kr3_with_gripper_schunk_camera_realsense">
+
+  <xacro:include filename="$(find acroba_description)/urdf/imr_industrial_cell/cell.xacro"/>
+  <xacro:cell prefix="" connected_to="base_link"/>
+
+  <xacro:include filename="$(find kuka_kr3_support)/urdf/kr3r540.xacro"/>
+
+  <xacro:include filename="$(find acroba_description)/urdf/imr_industrial_cell/gripperSchunk.xacro"/>
+  <xacro:gripperSchunk prefix="" connected_to="tool0"/>
+
+  <xacro:include filename="$(find acroba_description)/urdf/imr_industrial_cell/camera_realsense.xacro"/>
+  <xacro:camera_realsense prefix="" connected_to="gripper_tcp"/>
+
+</robot>

@@ -1,0 +1,326 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:include filename="$(find acroba_resources)/urdf/common_constants.xacro"/>
+  <xacro:include filename="$(find acroba_resources)/urdf/kuka_common_materials.xacro"/>
+  <xacro:include filename="$(find acroba_resources)/urdf/kr20r1810_transmission.xacro"/>
+
+  <xacro:property name="max_effort" value="0"/>
+  	<xacro:macro name="kuka_kr20r1810" params="prefix">
+
+  <xacro:macro name="default_inertia" params="mass">
+    <inertial>
+      <mass value="${mass}"/>
+      <inertia ixx="${1.0/12}" ixy="0.0" ixz="0.0"
+        iyy="${1.0/12}" iyz="0.0"
+        izz="${1.0/12}"/>
+    </inertial>
+  </xacro:macro>
+
+	<link name="${prefix}base_link">
+    <visual>
+      <origin xyz="0 0 0.0" rpy="0 0 0"/>
+      <geometry>
+          <mesh filename="package://acroba_resources/meshes/kuka_kr20/base.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <xacro:material_kuka_black />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.0" rpy="0 0 0"/>
+      <geometry>
+         <mesh filename="package://acroba_resources/meshes/kuka_kr20/base_convex.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <xacro:default_inertia mass="1"/>
+  </link>
+
+<!--z coord from cad-->
+  <link name="${prefix}link_1">
+    <visual>
+      <origin xyz="0 0 -0.250" rpy="0 0 0"/>
+      <geometry>
+          <mesh filename="package://acroba_resources/meshes/kuka_kr20/link1.stl" scale="0.001 0.001 0.001"/> 
+      </geometry>
+      <xacro:material_kuka_orange />
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.250" rpy="0 0 0"/>
+      <geometry>
+         <mesh filename="package://acroba_resources/meshes/kuka_kr20/link1_convex.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <xacro:default_inertia mass="1"/>
+  </link>
+
+<!--y coord from cad--> 
+  <link name="${prefix}link_2">
+    <visual>
+      <origin xyz="-0.16 0.0889 -0.52" rpy="0 0 0"/>
+      <geometry>
+          <mesh filename="package://acroba_resources/meshes/kuka_kr20/link2.stl" scale="0.001 0.001 0.001"/> 
+      </geometry>
+      <xacro:material_kuka_orange />
+    </visual>
+    <collision>
+      <origin xyz="-0.16 0.0889 -0.52" rpy="0 0 0"/>
+      <geometry>
+         <mesh filename="package://acroba_resources/meshes/kuka_kr20/link2_convex.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <xacro:default_inertia mass="1"/>
+  </link>
+
+<!-- y coord from cad-->
+  <link name="${prefix}link_3">
+    <visual>
+      <origin xyz="-0.16 0.0978 -1.30" rpy="0 0 0"/>
+      <geometry>
+          <mesh filename="package://acroba_resources/meshes/kuka_kr20/link3.stl" scale="0.001 0.001 0.001"/> 
+      </geometry>
+      <xacro:material_kuka_orange />
+    </visual>
+    <collision>
+      <origin xyz="-0.16 0.0978 -1.30" rpy="0 0 0"/>
+      <geometry>
+         <mesh filename="package://acroba_resources/meshes/kuka_kr20/link3_convex.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <xacro:default_inertia mass="1"/>
+  </link>
+
+ <!-- y coord from cad-->
+  <link name="${prefix}link_3_1">
+    <visual>
+      <origin xyz="-0.16 0.006 -1.30" rpy="0 0 0"/>
+      <geometry>
+          <mesh filename="package://acroba_resources/meshes/kuka_kr20/link3_1.stl" scale="0.001 0.001 0.001"/> 
+      </geometry>
+      <xacro:material_kuka_orange />
+    </visual>
+    <collision>
+      <origin xyz="-0.16 0.006 -1.30" rpy="0 0 0"/>
+      <geometry>
+         <mesh filename="package://acroba_resources/meshes/kuka_kr20/link3_1_convex.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <xacro:default_inertia mass="1"/>
+  </link>
+
+  <link name="${prefix}link_4">
+    <visual>
+      <origin xyz="-0.46 0 -1.45" rpy="0 0 0"/>
+      <geometry>
+          <mesh filename="package://acroba_resources/meshes/kuka_kr20/link4.stl" scale="0.001 0.001 0.001"/> 
+      </geometry>
+      <xacro:material_kuka_orange />
+    </visual>
+    <collision>
+      <origin xyz="-0.46 0 -1.45" rpy="0 0 0"/>
+      <geometry>
+         <mesh filename="package://acroba_resources/meshes/kuka_kr20/link4_convex.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <xacro:default_inertia mass="1"/>
+  </link>
+
+  <link name="${prefix}link_5">
+    <visual>
+      <origin xyz="-0.87 0 -1.45" rpy="0 0 0"/>
+      <geometry>
+          <mesh filename="package://acroba_resources/meshes/kuka_kr20/link5.stl" scale="0.001 0.001 0.001"/> 
+      </geometry>
+      <xacro:material_kuka_orange />
+    </visual>
+    <collision>
+      <origin xyz="-0.87 0 -1.45" rpy="0 0 0"/>
+      <geometry>
+         <mesh filename="package://acroba_resources/meshes/kuka_kr20/link5_convex.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <xacro:default_inertia mass="1"/>
+  </link>
+
+  <link name="${prefix}link_6">
+    <visual>
+      <origin xyz="-1.02 0 -1.45" rpy="0 0 0"/>
+      <geometry>
+          <mesh filename="package://acroba_resources/meshes/kuka_kr20/link6.stl" scale="0.001 0.001 0.001"/> 
+      </geometry>
+      <xacro:material_kuka_orange />
+    </visual>
+    <collision>
+      <origin xyz="-1.02 0 -1.45" rpy="0 0 0"/>
+      <geometry>
+         <mesh filename="package://acroba_resources/meshes/kuka_kr20/link6_convex.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <xacro:default_inertia mass="1"/>
+  </link>
+
+  <link name="${prefix}link_7">
+    <visual>
+      <origin xyz="-1.173 0 -1.45" rpy="0 0 0"/>
+      <geometry>
+          <mesh filename="package://acroba_resources/meshes/kuka_kr20/link_ee.stl" scale="0.001 0.001 0.001"/> 
+      </geometry>
+      <xacro:material_kuka_orange />
+    </visual>
+    <collision>
+      <origin xyz="-1.173 0 -1.45" rpy="0 0 0"/>
+      <geometry>
+         <mesh filename="package://acroba_resources/meshes/kuka_kr20/link_ee_convex.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <xacro:default_inertia mass="1"/>
+  </link>
+
+
+<!--JOINTS-->
+<!-- the joint coordinate are the substaction between their coordinates (child-parent)*-1-->
+		<joint name="${prefix}joint_a1" type="revolute">
+		    <origin xyz="0 0 0.250" rpy="0 0 0"/>
+		    <parent link="${prefix}base_link"/>
+		    <child link="${prefix}link_1"/>
+		    <axis xyz="0 0 -1"/>
+        <dynamics damping="0.7"/>
+		    <limit effort="${max_effort}" lower="${-DEG2RAD * 185}" upper="${DEG2RAD * 185}" velocity="${DEG2RAD * 200}"/>
+		</joint>
+
+    <joint name="${prefix}joint_a2" type="revolute">
+      <origin xyz="0.16 -0.0889 0.27" rpy="0 1.57 0 "/>
+      <parent link="${prefix}link_1"/>
+      <child link="${prefix}link_2"/>
+      <axis xyz="0 1 0"/>
+      <dynamics damping="0.7"/>
+      <limit effort="${max_effort}" lower="${-DEG2RAD * 185}" upper="${DEG2RAD * 65}" velocity="${DEG2RAD * 175}"/>
+    </joint>
+
+    <joint name="${prefix}joint_a3" type="revolute">
+      <origin xyz="0 -0.009 0.78" rpy="0 -1.57 0"/>
+      <parent link="${prefix}link_2"/>
+      <child link="${prefix}link_3"/>
+      <axis xyz="0 1 0"/>
+      <dynamics damping="0.7"/>
+      <limit effort="${max_effort}" lower="${-DEG2RAD * 138}" upper="${DEG2RAD * 175}" velocity="${DEG2RAD * 190}"/>
+    </joint>
+
+    <joint name="${prefix}joint_fixed_1" type="fixed">
+      <origin xyz="0.0 0.091 0" rpy="0 0 0"/>
+      <parent link="${prefix}link_3"/>
+      <child link="${prefix}link_3_1"/>
+    </joint>
+
+    <joint name="${prefix}joint_a4" type="revolute">
+      <origin xyz="0.3 0.0978 0.15" rpy="0 0 0"/>
+      <parent link="${prefix}link_3"/>
+      <child link="${prefix}link_4"/>
+      <axis xyz="-1 0 0"/>
+      <dynamics damping="0.7"/>
+      <limit effort="${max_effort}" lower="${-DEG2RAD * 350}" upper="${DEG2RAD * 350}" velocity="${DEG2RAD * 430}"/>
+    </joint>
+
+    <joint name="${prefix}joint_fixed_2" type="fixed">
+      <origin xyz="0.41 0 0" rpy="0 0 0"/>
+      <parent link="${prefix}link_4"/>
+      <child link="${prefix}link_5"/>
+    </joint>
+
+    <joint name="${prefix}joint_a5" type="revolute">
+      <origin xyz="0.15 0 0" rpy="0 0 0"/>
+      <parent link="${prefix}link_5"/>
+      <child link="${prefix}link_6"/>
+      <axis xyz="0 1 0"/>
+      <dynamics damping="0.7"/>
+      <limit effort="${max_effort}" lower="${-DEG2RAD * 120}" upper="${DEG2RAD * 120}" velocity="${DEG2RAD * 430}"/>
+    </joint>
+
+    <joint name="${prefix}joint_a6" type="revolute">
+      <origin xyz="0.153 0 0" rpy="0 0 0"/>
+      <parent link="${prefix}link_6"/>
+      <child link="${prefix}link_7"/>
+      <axis xyz="-1 0 0"/>
+      <dynamics damping="0.7"/>
+      <limit effort="${max_effort}" lower="${-DEG2RAD * 350}" upper="${DEG2RAD * 350}" velocity="${DEG2RAD * 630}"/>
+    </joint>
+
+     <!-- ROS base_link to UR 'Base' Coordinates transform -->
+    <link name="${prefix}base"/>
+    <joint name="${prefix}base_link-base_fixed_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}base"/>
+    </joint>
+
+     <!-- ROS-Industrial 'flange' frame: attachment point for EEF models -->
+    <link name="${prefix}flange" />
+    <joint name="${prefix}joint_6-flange" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="${prefix}link_7" />
+      <child link="${prefix}flange" />
+    </joint>
+
+    <!-- ROS-Industrial 'tool0' frame: all-zeros tool frame -->
+    <link name="${prefix}tool0" />
+    <joint name="${prefix}link_6-tool0" type="fixed">
+      <origin xyz="0 0 0.001" rpy="0 ${-pi/2} ${pi}" />
+      <parent link="${prefix}link_7" />
+      <child link="${prefix}tool0" />
+    </joint>      
+
+    <!--Gazebo robot control-->
+    <!--<gazebo>
+      <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <robotNamespace>/kr20r1810</robotNamespace>
+       
+      </plugin>
+    </gazebo>-->
+
+    <gazebo reference="${prefix}base_link">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <material>Gazebo/Black</material>
+    </gazebo>
+    <!-- Link1 -->
+    <gazebo reference="${prefix}link_1">
+      <material>Gazebo/Orange</material>
+    </gazebo>
+
+    <gazebo reference="${prefix}link_2">
+      <material>Gazebo/Orange</material>
+    </gazebo>
+
+    <!-- Link2 -->
+    <gazebo reference="${prefix}link_3">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <material>Gazebo/Orange</material>
+    </gazebo>
+
+    <!-- Link3 -->
+    <gazebo reference="${prefix}link_3_1">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <material>Gazebo/Orange</material>
+    </gazebo>
+
+    <gazebo reference="${prefix}link_4">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <material>Gazebo/Orange</material>
+    </gazebo>
+
+    <gazebo reference="${prefix}link_5">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <material>Gazebo/Orange</material>
+    </gazebo>
+
+     <gazebo reference="${prefix}link_6">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <material>Gazebo/Orange</material>
+    </gazebo>
+
+    <xacro:kr20r1810_transmission prefix="${prefix}"/>
+
+	</xacro:macro>
+</robot>

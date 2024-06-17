@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="camera">
+
+    <xacro:include filename="$(find acroba_resources)/urdf/sensors/ensenso/rgbd_camera_macro.xacro"/>
+    <xacro:property name="deg_to_rad" value="0.01745329251994329577"/>
+    <!--Use the previous macro to create one that match the template-->
+    <link name="world"/>
+    <xacro:rgbd_camera name="test_camera" parent="world">
+        <origin xyz="0 0 1" rpy="0 ${90* deg_to_rad} 0"/>
+    </xacro:rgbd_camera>
+ </robot>
+
+

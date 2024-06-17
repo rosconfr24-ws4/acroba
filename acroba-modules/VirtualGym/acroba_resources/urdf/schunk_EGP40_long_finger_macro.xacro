@@ -1,0 +1,91 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:macro name="schunk_egp40_long" params="prefix width:=0.1 length:=0.1">
+
+  <xacro:include filename="$(find acroba_resources)/urdf/schunk_EGP40_macro.xacro"/>
+  <xacro:schunk_egp40 prefix=""/>
+
+  
+  <xacro:property name="finger_width" value="0.017"/>
+  <xacro:property name="finger_offset" value="0.011 "/> 
+
+  <link name="${prefix}right_extension">
+      <visual>
+        <origin xyz="${finger_offset+width*0.5} 0 ${0.136}" rpy="0 0 0" />
+        <geometry>
+          <box size="${width} 0.017 0.017"/>
+        </geometry>
+        <material name="schunk_grey"/>
+      </visual>
+     <visual>
+        <origin xyz="${finger_offset+width+finger_width*0.5} 0 ${length*0.5+0.136-finger_width*0.5}" rpy="0 0 0" />
+        <geometry>
+          <box size="0.017 0.017 ${length}"/>
+        </geometry>
+        <material name="schunk_grey"/>
+      </visual>
+      <collision>
+        <origin xyz="${finger_offset+width*0.5} 0 ${0.136}" rpy="0 0 0" />
+        <geometry>
+          <box size="${width} 0.017 0.017"/>
+        </geometry>
+      </collision>
+     <collision>
+        <origin xyz="${finger_offset+width+finger_width*0.5} 0 ${length*0.5+0.136-finger_width*0.5}" rpy="0 0 0" />
+        <geometry>
+          <box size="0.017 0.017 ${length}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="${prefix}left_extension">
+      <visual>
+        <origin xyz="-${finger_offset+width*0.5} 0 ${0.136}" rpy="0 0 0" />
+        <geometry>
+          <box size="${width} 0.017 0.017"/>
+        </geometry>
+        <material name="schunk_grey"/>
+      </visual>
+     <visual>
+        <origin xyz="-${finger_offset+width+finger_width*0.5} 0 ${length*0.5+0.136-finger_width*0.5}" rpy="0 0 0" />
+        <geometry>
+          <box size="0.017 0.017 ${length}"/>
+        </geometry>
+        <material name="schunk_grey"/>
+      </visual>
+      <collision>
+        <origin xyz="-${finger_offset+width*0.5} 0 ${0.136}" rpy="0 0 0" />
+        <geometry>
+          <box size="${width} 0.017 0.017"/>
+        </geometry>
+      </collision>
+     <collision>
+        <origin xyz="-${finger_offset+width+finger_width*0.5} 0 ${length*0.5+0.136-finger_width*0.5}" rpy="0 0 0" />
+        <geometry>
+          <box size="0.017 0.017 ${length}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="extension_joint_right" type="fixed">
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+      <parent link="${prefix}right_finger"/>
+      <child link="${prefix}right_extension"/>
+    </joint>
+
+  <joint name="extension_joint_left" type="fixed">
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+      <parent link="${prefix}left_finger"/>
+      <child link="${prefix}left_extension"/>
+    </joint>
+
+
+    <link name="${prefix}end_tool"/>
+    <joint name="joint_tip_end" type="fixed">
+      <origin xyz="0.0 0.0 ${length-finger_width*0.5}" rpy="0.0 0.0 0.0"/>
+      <parent link="${prefix}tool_tip"/>
+      <child link="${prefix}end_tool"/>
+    </joint>
+      </xacro:macro>
+</robot>

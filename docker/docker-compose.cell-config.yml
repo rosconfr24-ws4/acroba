@@ -1,0 +1,33 @@
+
+services:
+  
+  cell-config:
+    image: acroba/cell-config
+    container_name: $COMPOSE_PROJECT_NAME-$CELL
+    extends: 
+      file: acroba-common-services.yml 
+      service: acroba-module-ros-sshd-$X-$GPU
+    environment:
+      - "SSH_PORT=5025"
+    command: 
+      ["cell_config", "vg"]
+    depends_on:
+      virtualgym:
+        condition: service_started
+
+
+  # the skills container now depends on the cell config, 
+  # as it need to source the cell description package shipped into 
+  # /home/acroba/data/cell-config/cell-description
+  skills: 
+    depends_on:
+      cell-config:
+        condition: service_started
+
+  skills-vg: 
+    depends_on:
+      cell-config:
+        condition: service_started
+
+
+

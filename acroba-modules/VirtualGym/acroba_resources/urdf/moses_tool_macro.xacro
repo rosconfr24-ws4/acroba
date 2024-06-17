@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+
+   <xacro:macro name="moses_tool" params="prefix">
+    
+
+    <link name="${prefix}tool_body" >
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="package://acroba_resources/meshes/miscellaneous/moses_tool/moses_tool_centered.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="Grey">
+          <color rgba="0.5 0.5 0.5 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="package://acroba_resources/meshes/miscellaneous/moses_tool/moses_tool_collision.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+      
+     <!-- unknown intertia-->
+      
+    </link>
+
+    <link name="${prefix}end_tool"/>
+    <joint name="${prefix}joint_frame_tool" type="fixed">
+      <parent link="${prefix}tool_body" />
+      <child link = "${prefix}end_tool" />
+      <origin xyz="0.0 -0.362 0.1 " rpy="1.570796 0.0 0.0" />
+    </joint>
+
+    <disable_collision link1="${prefix}extension" link2="${prefix}end_tool"/>
+   </xacro:macro>
+</robot>

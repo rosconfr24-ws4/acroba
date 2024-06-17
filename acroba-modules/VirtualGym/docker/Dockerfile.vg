@@ -1,0 +1,30 @@
+FROM acroba/acroba-base-ros1-gpu
+
+RUN sudo apt-get update -y && \
+    sudo apt-get upgrade -y && \
+    sudo apt-get install -y \
+        ros-${ROS_DISTRO}-control-msgs\
+        ros-${ROS_DISTRO}-cv-bridge\
+        ros-${ROS_DISTRO}-trac-ik\
+        libnlopt-dev\
+        libnlopt-cxx-dev\
+    && sudo rm -rf /var/lib/apt/lists/*
+
+RUN python3 -m pip install UnityPy transforms3d click
+	
+WORKDIR ${SRC_DIR}
+COPY --chown=${USER}:${USER} ./ ./VirtualGym
+
+WORKDIR ${WS_DIR}
+RUN sudo apt-get update -y && \
+    sudo apt-get upgrade -y && \
+    /bin/bash -c "source /opt/ros/noetic/setup.bash && \
+    rosdep update --rosdistro ${ROS_DISTRO} &&\
+    rosdep install -y -r --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} && \
+    catkin build" &&\
+	sudo rm -rf /var/lib/apt/lists/*
+
+COPY ./docker/entrypoint.sh /ros_entrypoint.sh
+RUN sudo chmod +x /ros_entrypoint.sh
+ENTRYPOINT ["/ros_entrypoint.sh"]
+

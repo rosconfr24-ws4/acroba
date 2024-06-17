@@ -1,0 +1,7 @@
+# Define goal's message
+---
+# Define result's message
+string[] joint_names
+float64[] joint_values
+---
+# Define feedback's message

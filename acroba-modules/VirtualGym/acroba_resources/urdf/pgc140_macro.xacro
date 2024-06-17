@@ -1,0 +1,216 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+<xacro:macro name="pgc140" params="prefix">
+  <material name="pgc_dark_grey">
+    <color rgba="0.3 0.3 0.3 1.0"/>
+  </material>
+  <material name="pgc_grey">
+    <color rgba="0.45 0.45 0.45 1.0"/>
+  </material>
+  
+  <xacro:property name="body_base_height" value="0.098"/>
+  <xacro:property name="finger_length" value="0.0405"/>
+  <xacro:property name="finger_width" value="0.0115"/>
+  <xacro:property name="finger_depth" value="0.017"/>
+	<xacro:property name="body_length" value="0.0915"/>
+  <xacro:property name="stroke" value="0.05"/><!--from dataset 0.035-->
+  <xacro:property name="maxeffort" value="140"/><!--effort is 40-140 Nm-->
+  <xacro:property name="max_speed" value="${stroke*0.5/0.6}"/><!-- 0.6s openning time-->
+  <!-- Finger and body intersect for 1.3mm this is taking into account in finger_length-->
+  <link name="${prefix}base_tool">
+    <visual>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <mesh filename="package://acroba_resources/meshes/pgc140/body_centered.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="pgc_grey"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <mesh filename="package://acroba_resources/meshes/pgc140/body_centered.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.001151" ixy="0.0" ixz="0.0" iyy="0.001151" iyz="0.0" izz="0.000117"/>
+    </inertial>
+  </link>
+  
+  <link name="${prefix}base_finger_1">
+    <visual>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <mesh filename="package://acroba_resources/meshes/pgc140/finger_holder_1_centered.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="pgc_dark_grey"/>
+    </visual>
+    <collision>
+     <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <mesh filename="package://acroba_resources/meshes/pgc140/finger_holder_1_centered.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.05"/>
+      <inertia ixx="0.00037" ixy="0.0" ixz="0.0" iyy="0.00037" iyz="0.0" izz="0.000146"/>
+    </inertial>
+  </link>
+  
+  <link name="${prefix}base_finger_2">
+    <visual>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <mesh filename="package://acroba_resources/meshes/pgc140/finger_holder_2_centered.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="pgc_dark_grey"/>
+    </visual>
+    <collision>
+     <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <mesh filename="package://acroba_resources/meshes/pgc140/finger_holder_2_centered.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.05"/>
+      <inertia ixx="0.00037" ixy="0.0" ixz="0.0" iyy="0.00037" iyz="0.0" izz="0.000146"/>
+    </inertial>
+  </link>
+  
+    <link name="${prefix}finger_1">
+	<visual>
+		<origin xyz="0 0 ${finger_length*0.5}" rpy="0.0 0.0 0.0"/>
+		<geometry>
+			  <box size="${finger_width} ${finger_depth} ${finger_length}"/>
+		</geometry>
+		<material name="pgc_dark_grey"/>
+	</visual>
+	<collision>
+		<origin xyz="0 0 ${finger_length*0.5}" rpy="0.0 0.0 0.0"/>
+		<geometry>
+			 <box size="${finger_width} ${finger_depth} ${finger_length}"/>
+		</geometry>
+	</collision>
+	<inertial>
+		<mass value="0.1"/>
+		<inertia ixx="0.00037" ixy="0.0" ixz="0.0" iyy="0.00037" iyz="0.0" izz="0.000146"/>
+	</inertial>
+</link>
+
+  <link name="${prefix}finger_2">
+	<visual>
+		<origin xyz="0 0 ${finger_length*0.5}" rpy="0.0 0.0 0.0"/>
+		<geometry>
+			  <box size="${finger_width} ${finger_depth} ${finger_length}"/>
+		</geometry>
+		<material name="pgc_dark_grey"/>
+	</visual>
+	<collision>
+		<origin xyz="0 0 ${finger_length*0.5}" rpy="0.0 0.0 0.0"/>
+		<geometry>
+			 <box size="${finger_width} ${finger_depth} ${finger_length}"/>
+		</geometry>
+	</collision>
+	<inertial>
+		<mass value="1"/>
+		<inertia ixx="0.00037" ixy="0.0" ixz="0.0" iyy="0.00037" iyz="0.0" izz="0.000146"/>
+	</inertial>
+</link>
+	
+	
+  
+  <joint name="${prefix}joint_base_finger_1" type="prismatic">
+	<origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="${prefix}base_tool"/>
+    <child link="${prefix}base_finger_1"/>
+	<axis xyz="-1 0 0"/>
+	<limit effort="${maxeffort}" lower="0" upper="${stroke*0.5}" velocity="${max_speed}"/>
+  </joint>
+  
+  <joint name="${prefix}joint_base_finger_2" type="prismatic">
+	<origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="${prefix}base_tool"/>
+    <child link="${prefix}base_finger_2"/>
+	<axis xyz="1 0 0"/>
+	<limit effort="${maxeffort}" lower="0" upper="${stroke*0.5}" velocity="${max_speed}"/>
+  </joint>
+  
+  
+  <joint name="${prefix}joint_finger_1" type="fixed">
+  <origin rpy="0 0 0" xyz="${(stroke*0.5+finger_width*0.5)} 0 ${body_length}"/>
+    <parent link="${prefix}base_finger_1"/>
+    <child link="${prefix}finger_1"/>
+  </joint>
+  
+ <joint name="${prefix}joint_finger_2" type="fixed">
+  <origin rpy="0 0 0" xyz="${-(stroke*0.5+finger_width*0.5)} 0  ${body_length}"/>
+    <parent link="${prefix}base_finger_2"/>
+    <child link="${prefix}finger_2"/>
+  </joint>-->
+
+  <link name="gripping_point" />
+  <joint name="joint_gripping" type="fixed">
+	<origin rpy="0 0 0" xyz="0. 0 ${body_length + finger_length}"/>
+    <parent link="${prefix}base_tool"/>
+    <child link="${prefix}gripping_point"/>
+  </joint>
+
+  <!-- Add gazebo colors-->
+  <gazebo reference="${prefix}base_tool">
+    <material>Gazebo/FlatBlack</material>
+  </gazebo> 
+  <gazebo reference="${prefix}base_finger_1">
+    <material>Gazebo/FlatBlack</material>
+  </gazebo> 
+  <gazebo reference="${prefix}base_finger_2">
+    <material>Gazebo/FlatBlack</material>
+  </gazebo> 
+  <gazebo reference="${prefix}finger_1">
+    <material>Gazebo/FlatBlack</material>
+  </gazebo> 
+  <gazebo reference="${prefix}finger_2">
+    <material>Gazebo/FlatBlack</material>
+  </gazebo> 
+
+  <!-- Transmissions-->
+  <transmission name="${prefix}joint_finger1_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${prefix}joint_base_finger_1">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${prefix}joint_base_finger_1_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+   <transmission name="${prefix}joint_finger2_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${prefix}joint_base_finger_2">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${prefix}joint_base_finger_2_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+  <disable_collision link1="wrist_3_link" link2="base_tool">
+  </disable_collision>
+<!-- Disabling collision for gripper-->
+<disable_collision link1="${prefix}base_tool" link2="${prefix}base_finger_1">
+  </disable_collision>
+  <disable_collision link1="${prefix}base_tool" link2="${prefix}base_finger_2">
+  </disable_collision>
+  <disable_collision link1="${prefix}base_finger_2" link2="${prefix}base_finger_1">
+  </disable_collision>
+  <disable_collision link1="${prefix}base_tool" link2="${prefix}finger_1">
+  </disable_collision>
+  <disable_collision link1="${prefix}base_tool" link2="${prefix}finger_2">
+  </disable_collision>
+  <disable_collision link1="${prefix}base_finger_2" link2="${prefix}finger_2">
+  </disable_collision>
+  <disable_collision link1="${prefix}base_finger_1" link2="${prefix}finger_1">
+  </disable_collision>
+	</xacro:macro>
+</robot>

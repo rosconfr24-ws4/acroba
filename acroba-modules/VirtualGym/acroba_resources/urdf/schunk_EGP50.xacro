@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<robot name="schunk" xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:include filename="$(find acroba_resources)/urdf/schunk_EGP50_macro.xacro"/>
+  <xacro:schunk_egp50 prefix=""/>
+</robot>

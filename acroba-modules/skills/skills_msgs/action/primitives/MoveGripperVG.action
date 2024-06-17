@@ -1,0 +1,13 @@
+# Define goal's message
+string gripper_type
+float32[] fingers_poses
+float32 width
+float32 speed
+---
+# Define result's message
+
+---
+# Define feedback's message
+int32[] closure_percentage
+
+

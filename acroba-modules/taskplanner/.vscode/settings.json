@@ -1,0 +1,21 @@
+{
+    "editor.tabSize": 4,
+    "editor.rulers": [
+        100
+    ],
+    "python.analysis.autoSearchPaths": true, 
+    "python.analysis.extraPaths": [
+        "/opt/ros/noetic/lib/python3.8/site-packages/", 
+        "/home/acroba/ros-workspaces/ros1-noetic/install/atp_msgs/lib/python3.8/site-packages/"
+    ],
+    // Environment file lets vscode find python files within workspace
+    "python.envFile": "${workspaceFolder}/.env",    
+    "files.associations": {
+        "stdexcept": "cpp",
+        "typeinfo": "cpp",
+        "*.tcc": "cpp",
+        "istream": "cpp",
+        "ostream": "cpp",
+        "future": "cpp"
+    }
+}

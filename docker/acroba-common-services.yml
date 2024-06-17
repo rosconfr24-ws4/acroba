@@ -1,0 +1,161 @@
+
+services:
+
+  ########################################### 
+  #               ROSCORE SETUP             #
+  ########################################### 
+        
+  roscore-network-host: 
+    network_mode: "host"     
+
+  roscore-network-bridge: 
+    networks:
+      - ros_network
+    ports:
+      - "11311:11311" 
+
+  ########################################### 
+  #               ACROBA SETUP              #
+  ###########################################
+
+  acroba-module: 
+    volumes:
+      - "../shared:/home/acroba/share/"
+      - "data:/home/acroba/data"
+      - "logs:/home/acroba/logs" 
+
+  acroba-module-ros: 
+    extends: acroba-module-ros-$NET
+
+  acroba-module-ros-host: 
+    extends: acroba-module
+    network_mode: "host"     
+    depends_on:
+      roscore:
+        condition: service_healthy
+
+  acroba-module-ros-bridge: 
+    extends: acroba-module
+    environment:
+      - ROS_MASTER_URI=http://roscore:11311
+    networks:
+      - ros_network
+    depends_on:
+      roscore:
+        condition: service_healthy
+
+
+  acroba-module-ros-sshd: 
+    extends: acroba-module-ros
+    volumes:
+      - "../.config/ssh/public:/home/acroba/config/ssh"
+      - ./scripts/start_sshd.sh:/start_sshd.sh
+    command: ["/bin/bash", "/start_sshd.sh"]
+
+
+  ########################################### 
+  #               noVNC SETUP               #
+  ########################################### 
+
+  acroba-module-novnc: 
+    extends: acroba-module
+    environment:
+      - DISPLAY=novnc:0.0
+    depends_on:
+      novnc:
+        condition: service_healthy
+
+
+  acroba-module-ros-novnc: 
+    extends: acroba-module-ros
+    environment:
+      - DISPLAY=novnc:0.0
+    depends_on:
+      novnc:
+        condition: service_healthy
+
+
+  acroba-module-ros-sshd-novnc: 
+    extends: acroba-module-ros-sshd
+    environment:
+      - DISPLAY=novnc:0.0
+    depends_on:
+      novnc:
+        condition: service_healthy
+
+
+  acroba-module-ros-sshd-novnc-cpu: 
+    extends: acroba-module-ros-sshd-novnc
+
+
+  acroba-module-ros-sshd-novnc-gpu: 
+    extends: acroba-module-ros-sshd-novnc
+    volumes: 
+      - "/dev:/dev"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]        
+
+
+########################################### 
+#                X11 SETUP                #
+########################################### 
+
+  acroba-module-x: 
+    extends: acroba-module
+    environment:
+      - DISPLAY=$DISPLAY
+    volumes: 
+      - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
+      - "/dev:/dev"
+
+  acroba-module-ros-x: 
+    extends: acroba-module-ros
+    environment:
+      - DISPLAY=$DISPLAY
+    volumes: 
+      - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
+      - "/dev:/dev"
+
+
+  acroba-module-ros-sshd-x: 
+    extends: acroba-module-ros-sshd
+    environment:
+      - DISPLAY=$DISPLAY
+    volumes: 
+      - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
+    
+
+  acroba-module-ros-sshd-x-cpu: 
+    extends: acroba-module-ros-sshd-x
+
+  acroba-module-ros-sshd-x-gpu: 
+    extends: acroba-module-ros-sshd-x
+    volumes: 
+      - "/dev:/dev"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]        
+
+##########################################
+
+  acroba-virtualgym-host: 
+    extends: 
+      file: acroba-common-services.yml 
+      service: acroba-module-ros-sshd-$X-$GPU
+
+
+  acroba-virtualgym-bridge: 
+    extends: 
+      file: acroba-common-services.yml 
+      service: acroba-module-ros-sshd-$X-$GPU
+    ports: 
+      - "10000:10000"

@@ -1,0 +1,9 @@
+<launch>
+<param name="robot_description" textfile="$(find acroba_resources)/urdf/ikor_cell.urdf"/>
+
+<param name="base_robot" type="string" value="world" />
+<param name="end_tool" type="string" value="gripping_point" />
+
+<node name="ik_node" pkg="acroba_gym" type="robot_complete_interface.py" output="screen"/>
+
+</launch>

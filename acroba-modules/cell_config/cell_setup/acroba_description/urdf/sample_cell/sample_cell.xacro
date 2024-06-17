@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="sample_cell">
+
+  <link name="world" />
+   
+  <!-- import robot + parameter if needed -->
+  <xacro:include filename="$(find ur_description)/urdf/ur10.xacro"/>
+  
+  <!-- defining robot position in world frame -->  
+  <joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link = "base_link" />
+    <origin xyz="0 0 0.828000009059906" rpy="0 0 ${-3*pi/4}"/>
+  </joint>
+  
+  
+  <!-- import gripper/tool + parameter if needed -->
+  <xacro:include filename="$(find acroba_description)/urdf/robotiq_hande/robotiq_hande.urdf.xacro"/>
+  <xacro:robotiq_hande prefix=""/>
+
+  <joint name="tool_joint" type="fixed">
+    <parent link="tool0" />
+    <child link = "base_tool" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+
+  <!-- define additionnal TCP endeffector if needed -->
+  
+  <!-- import cell + define parameter -->  
+    
+  <!-- Camera -->
+  <link name="camera"/>
+  <joint name="world_to_simulated_camera" type="fixed">
+    <parent link="world"/>
+    <child link="camera"/>
+    <origin xyz="0.009999999776482582 -0.9599999785423279 1.8700000047683716" rpy="0 ${pi/2} 0"/>
+  </joint>
+  
+  <!-- TABLES -->  
+  <xacro:property name="table_scale_factor" value="0.01" />
+  <xacro:property name="table_scaling" value="${table_scale_factor} ${table_scale_factor} ${table_scale_factor}" />
+
+  <link name="pick_table">
+      <visual>
+          <geometry>
+              <mesh filename="package://acroba_description/meshes/sample_cell/general/table.fbx" scale="${table_scaling}"/>
+          </geometry>
+          <material name="grey">
+              <color rgba="${170/255} ${170/255} ${170/255} 1"/>
+          </material>
+      </visual>
+      <collision>
+          <geometry>
+              <mesh filename="package://acroba_description/meshes/sample_cell/general/table.fbx" scale="${table_scaling}"/>
+          </geometry>
+      </collision>
+  </link>
+  
+  <joint name="world_to_pick_table" type="fixed">
+      <parent link="world"/>
+      <child link="pick_table"/>
+      <origin xyz="0 -1.25 0" rpy="${pi/2} 0 ${pi/2}"/>
+  </joint>
+  
+  <link name="place_table">
+      <visual>
+          <geometry>
+              <mesh filename="package://acroba_description/meshes/sample_cell/general/table.fbx" scale="${table_scaling}"/>
+          </geometry>
+          <material name="grey">
+              <color rgba="${170/255} ${170/255} ${170/255} 1"/>
+          </material>
+      </visual>
+      <collision>
+          <geometry>
+              <mesh filename="package://acroba_description/meshes/sample_cell/general/table.fbx" scale="${table_scaling}"/>
+          </geometry>
+      </collision>
+  </link>
+  
+  <joint name="world_to_place_table" type="fixed">
+      <parent link="world"/>
+      <child link="place_table"/>
+      <origin xyz="-0.5 0 0" rpy="${pi/2} 0 0"/>
+  </joint>
+  
+  <!-- TRAYS -->  
+  <xacro:property name="tray_scale_factor" value="0.5" />
+  <xacro:property name="tray_scaling" value="${tray_scale_factor} ${tray_scale_factor} ${tray_scale_factor}" />
+  
+  <link name="pick_tray">
+      <visual>
+          <geometry>
+              <mesh filename="package://acroba_description/meshes/sample_cell/general/tray.stl" scale="${tray_scaling}"/>
+          </geometry>
+          <material name="grey_darker">
+              <color rgba="${100/255} ${100/255} ${100/255} 1"/>
+          </material>
+      </visual>
+      <collision>
+          <geometry>
+              <mesh filename="package://acroba_description/meshes/sample_cell/general/tray.stl" scale="${tray_scaling}"/>
+          </geometry>
+      </collision>
+  </link>
+   
+  <joint name="world_to_pick_tray" type="fixed">
+      <parent link="world"/>
+      <child link="pick_tray"/>
+      <origin xyz="0 -0.9710000157356262 0.8374999761581421" rpy="${-pi/2} 0 0"/>
+  </joint>
+  
+  <link name="place_tray">
+      <visual>
+          <geometry>
+              <mesh filename="package://acroba_description/meshes/sample_cell/general/tray.stl" scale="${tray_scaling}"/>
+          </geometry>
+          <material name="grey_darker">
+              <color rgba="${100/255} ${100/255} ${100/255} 1"/>
+          </material>
+      </visual>
+      <collision>
+          <geometry>
+              <mesh filename="package://acroba_description/meshes/sample_cell/general/tray.stl" scale="${tray_scaling}"/>
+          </geometry>
+      </collision>
+  </link>
+  
+  <joint name="world_to_place_tray" type="fixed">
+      <parent link="world"/>
+      <child link="place_tray"/>
+      <origin xyz="-0.6949999928474426 0 0.8374999761581421" rpy="${-pi/2} 0 0"/>
+  </joint>
+
+  <!-- CUBE -->  
+  <xacro:property name="cube_size" value="0.03" />
+  <link name="cube">
+    <visual>
+      <geometry>
+        <box size="${cube_size} ${cube_size} ${cube_size}"/>
+      </geometry>
+      <material name="white">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${cube_size} ${cube_size} ${cube_size}"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="world_to_cube" type="fixed">
+    <parent link="world"/>
+    <child link="cube"/>
+    <origin xyz="0.011000092141330242 -0.9369996190071106 0.8574709892272949" rpy="0 0 0"/>
+  </joint>
+
+</robot>

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="cell">
+
+    <xacro:macro name="cell" params="prefix connected_to">
+
+        <link name="${prefix}world">
+            <visual>
+                <geometry>
+                    <mesh filename="package://acroba_description/meshes/imr_cell_inspection/cobot_cell_simplyfied.stl"/>
+                </geometry>
+                <material name="grey">
+                    <color rgba="${170/255} ${170/255} ${170/255} 1"/>
+                </material>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="package://acroba_description/meshes/imr_cell_inspection/cobot_cell_simplyfied.stl"/>
+                </geometry>
+            </collision>
+        </link>
+        
+        <joint name="world_to_cell_joint" type="fixed">
+            <parent link="${connected_to}"/>
+            <child link="${prefix}world"/>
+            <origin rpy="${pi/2.0} 0 0" xyz="-0.163 0.720 -0.845"/>
+            <!-- <origin rpy="0 0 0" xyz="-0.163 0.720 -0.845"/> -->
+        </joint>
+
+    </xacro:macro>
+</robot>
+    

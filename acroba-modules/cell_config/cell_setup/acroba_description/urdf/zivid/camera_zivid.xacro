@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:macro name="camera_zivid" params="prefix connected_to">
+
+    <link name="${prefix}zivid">
+      <visual>
+        <origin xyz="0 0 -0.269" rpy="${pi/2.0} ${pi} 0"/>
+        <geometry>
+          <mesh filename="package://acroba_description/meshes/zivid/visual/zivid.stl"/>
+        </geometry>
+        <material name="black">
+          <color rgba="${60/255} ${60/255} ${60/255} 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 -0.269" rpy="${pi/2.0} ${pi} 0"/>
+        <geometry>
+          <mesh filename="package://acroba_description/meshes/zivid/collision/zivid.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${prefix}zivid_joint" type="fixed">
+      <!-- The parent link must be read from the robot model it is attached to. -->
+      <parent link="${connected_to}"/>
+      <child link="${prefix}zivid"/>
+      <!-- The tool is directly attached to the flange. -->
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </joint>
+  
+    <!-- camera optical frame -->
+    <link name="${prefix}camera_tcp"/>
+    <joint name="${prefix}camera_tcp_joint" type="fixed">
+      <origin xyz="-0.065 -0.115 -0.139" rpy="-0.00937 0.2525263 -0.004161"/>
+      <parent link="${prefix}zivid"/>
+      <child link="${prefix}camera_tcp"/>
+    </joint>
+
+    <!-- camera optical frame -->
+    <link name="${prefix}camera_center"/>
+    <joint name="${prefix}camera_center_joint" type="fixed">
+      <origin xyz="0.063 0.0 0.016" rpy="0.009 -0.253 0.002"/>
+      <parent link="${prefix}camera_tcp"/>
+      <child link="${prefix}camera_center"/>
+    </joint>
+
+  </xacro:macro>
+</robot>

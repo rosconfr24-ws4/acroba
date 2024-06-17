@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<robot name="motoman_gp50" xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:include filename="$(find acroba_resources)/urdf/gp50_macro.xacro" />
+  <xacro:include filename="$(find acroba_resources)/urdf/moses_tool_macro.xacro" />
+  <xacro:motoman_gp50 prefix=""/>
+  <xacro:moses_tool prefix=""/>
+  <link name="world"/>
+  <joint name="world_joint" type="fixed">
+        <origin xyz= "1 -0.393999993801117 0" rpy= "0 0 -3.141593"/>
+        <parent link="world"/>
+        <child link="base_link"/>
+    </joint>
+
+  <joint name="tool__extension_joint" type="fixed">
+    <parent link="tool0" />
+    <child link = "tool_body" />
+    <origin xyz="0.0 0.0 0.0" rpy="0 0.0 -1.570796" />
+  </joint>
+
+<!-- Disabling collision between tool and robot, maybe not necessary-->
+<disable_collision link1="wrist_3_link" link2="extension"/>
+<disable_collision link1="extension_tool0" link2="base_tool"/>
+
+
+</robot>
+
+
+
+

@@ -1,0 +1,69 @@
+{
+    "version": "2.0.0",
+    "tasks": [  
+        // Clean
+        {
+            "label": "clean",
+            "detail": "clean workspace by deleting all generated files.",
+            "type": "shell",
+            "command": "rm -rf build install log; py3clean .",
+            "problemMatcher": [], 
+            "options": {
+                "shell": {"args": []}, 
+                "cwd": "${input:ros_workspace}"
+            }
+        },
+        // Build tasks
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "source /opt/ros/noetic/setup.bash && catkin build", 
+            "group": "build", 
+            "problemMatcher": "$gcc",
+            "options": {
+                "cwd": "${input:ros_workspace}"
+            } 
+        },
+        // Setup
+        {
+            "label": "SetUpEnvironment",
+            "detail": "source the required ros env dependencies",
+            "type": "shell",
+            "command": "source /opt/ros/noetic/setup.bash && source ${input:ros_workspace}/devel/local_setup.bash"
+        },   
+        // build and Setup
+        {
+            "label": "Build_and_set_up", 
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "build",
+                "SetUpEnvironment"
+            ]
+        }, 
+        {
+            "label": "install dependencies",
+            "detail": "Install all dependencies specified in the workspaces package.xml files.",
+            "type": "shell",
+            "command": "sudo apt-get update && rosdep update && rosdep install --from-paths src --ignore-src -y",
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+          "id": "package",
+          "type": "promptString",
+          "description": "Package name"
+        }, 
+        {
+          "id": "ros_workspace",
+          "type": "command",
+          "command": "shellCommand.execute",
+          "args": {
+                "command": "echo ${env:WS_DIR}",                
+                "description": "location of the ros workspace?", 
+            }, 
+        }
+    ]
+}
+
+ 

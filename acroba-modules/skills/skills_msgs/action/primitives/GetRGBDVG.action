@@ -1,0 +1,9 @@
+# Define goal's message
+---
+# Define result's message
+sensor_msgs/Image image
+sensor_msgs/Image depth_map
+---
+# Define feedback's message
+
+#http://wiki.ros.org/actionlib

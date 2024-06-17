@@ -1,0 +1,15 @@
+# Define goal's message
+string planning_group
+string frame_id
+string endeffector
+geometry_msgs/Pose[] points
+float32[] articular_pose
+bool cartesian
+float32 cartesian_speed_limit
+float32 velocity_factor
+float32 acceleration_factor
+---
+# Define result's message
+moveit_msgs/RobotTrajectory trajectory
+---
+# Define feedback's message

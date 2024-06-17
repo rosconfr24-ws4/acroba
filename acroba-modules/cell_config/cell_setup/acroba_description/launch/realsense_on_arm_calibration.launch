@@ -1,0 +1,14 @@
+<launch>
+ <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="camera_color_optical_frame_broadcaster"
+      args="-0.0535671 0.0342887 0.0313967   0.00778376 0.00761204 -0.698312 0.715711 tool0 camera_color_optical_frame" /> -->
+ <node pkg="tf2_ros" type="static_transform_publisher" name="camera_color_optical_frame_broadcaster"
+      args="-0.0546558 0.0321706 0.0370784   -0.00308193 -0.0031001 -0.690704 0.723125 tool0 camera_color_optical_frame"/>
+  <node pkg="tf2_ros" type="static_transform_publisher" name="camera_color_frame_broadcaster"
+      args="0 0 0  0.5 -0.5 0.5 0.5 camera_color_optical_frame camera_color_frame" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="camera_link_broadcaster"
+      args="0 -0.015 0  0 0 0 1 camera_color_frame camera_link" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="camera_depth_frame_broadcaster"
+      args="0 0 0  0 0 0 1 camera_link camera_depth_frame" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="camera_depth_optical_frame_broadcaster"
+      args="0 0 0  0.5 -0.5 0.5 -0.5 camera_depth_frame camera_depth_optical_frame" />
+</launch>

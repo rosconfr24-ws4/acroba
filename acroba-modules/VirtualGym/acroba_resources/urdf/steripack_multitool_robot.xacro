@@ -1,0 +1,67 @@
+<?xml version="1.0" ?>
+<robot  name="steripack_robot" xmlns:xacro="http://wiki.ros.org/xacro">
+
+
+  <xacro:include filename="$(find acroba_resources)/urdf/ur10_macro.xacro" />
+  <xacro:include filename="$(find acroba_resources)/urdf/schunk_EGP40_long_finger_macro.xacro" />
+  <!-- arm -->
+  <xacro:ur10 prefix=""/>
+  <xacro:schunk_egp40_long prefix="" width="0.01" length="0.1"/>
+
+  <link name="world"/>
+  <joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link = "base_link" />
+    <origin xyz= "0 0 0" rpy= "0 0 0"/>
+  </joint>
+
+  <link name="common_tool"/>
+
+    <joint name="common_tool_joint" type="fixed">
+    <parent link="tool0" />
+    <child link = "common_tool"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+  <joint name="tool_joint1" type="fixed">
+    <parent link="common_tool" />
+    <child link = "base_tool"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+  <xacro:property name="drill_length" value="0.2"/>
+
+  <link name="tool_drill">
+    <visual>
+      <origin xyz="0 0 ${drill_length*0.5}" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.01" length="${drill_length}"/>
+      </geometry>
+      <material name="drill_color">
+          <color rgba="1 0.64 0.0 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 ${drill_length*0.5}" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.01" length="${drill_length}"/>
+      </geometry>
+     
+    </collision>
+  </link>
+
+<joint name="tool_joint2" type="fixed">
+    <parent link="common_tool" />
+    <child link = "tool_drill"/>
+    <origin xyz="0.0 0.0 0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+  <link name="end_drill"/> 
+
+<joint name="joint_drill" type="fixed">
+    <parent link="tool_drill" />
+    <child link = "end_drill"/>
+    <origin xyz="0.0 0.0 ${drill_length}" rpy="0.0 0.0 0.0" />
+  </joint>
+
+</robot>

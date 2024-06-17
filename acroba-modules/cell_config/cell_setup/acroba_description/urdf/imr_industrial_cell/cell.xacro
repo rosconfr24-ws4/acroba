@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="cell">
+
+  <xacro:macro name="cell" params="prefix connected_to">
+
+    <link name="${prefix}world">
+      <visual>
+        <origin xyz="0.0 0 0.0" rpy="0.0 0.0 0.0"/>
+        <geometry>
+          <mesh filename="package://acroba_description/meshes/imr_industrial_cell/ACROBA_Industrial_Robot_Cell.stl"/>
+        </geometry>
+        <material name="Silver">
+          <color rgba="${192/255} ${192/255} ${192/255} 1.0"/>
+        </material>  
+      </visual>
+      <collision>
+        <origin xyz="0.0 0 0.0" rpy="0.0 0.0 0.0"/>
+        <geometry>
+          <mesh filename="package://acroba_description/meshes/imr_industrial_cell/ACROBA_Industrial_Robot_Cell.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- TCP frame -->
+    <joint name="${prefix}world_to_base" type="fixed">
+      <origin xyz="-0.22 0.71 -0.85" rpy="${pi/2.0} 0.0 0.0"/>
+      <parent link="${connected_to}"/>
+      <child link="${prefix}world"/>
+    </joint>
+    
+  </xacro:macro>
+</robot>

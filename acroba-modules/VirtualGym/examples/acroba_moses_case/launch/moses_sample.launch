@@ -1,0 +1,9 @@
+<launch>
+<!--Load urdf of the robot-->
+<param name="robot_description" textfile="$(find acroba_resources)/urdf/moses_cell_with_scene_world.urdf"/>
+
+<param name="base_robot" type="string" value="world" />
+<param name="end_tool" type="string" value="end_tool" />
+<!--<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />-->
+<node name="moses_pipeline" pkg="acroba_moses_case" type="moses_sample.py" output="screen" respawn="true"/>
+</launch>

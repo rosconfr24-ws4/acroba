@@ -1,0 +1,8 @@
+# Define goal's message
+string planning_group
+moveit_msgs/RobotTrajectory trajectory
+---
+# Define result's message
+bool finish
+---
+# Define feedback's message

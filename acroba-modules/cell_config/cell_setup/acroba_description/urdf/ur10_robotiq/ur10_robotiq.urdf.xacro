@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro"
+       name="ur10" >
+
+  <xacro:arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface"/>
+
+  <!-- common stuff -->
+  <xacro:include filename="$(find ur_description)/urdf/common.gazebo.xacro" />
+
+  <!-- ur10 -->
+  <xacro:include filename="$(find ur_description)/urdf/ur10.urdf.xacro" />
+
+  <!-- arm -->
+<!--
+  shoulder_pan_lower_limit="${-3*pi/2}" shoulder_pan_upper_limit="${-pi/2}"
+-->
+  <xacro:ur10_robot prefix="" joint_limited="false"
+    shoulder_pan_lower_limit="${-pi/2}" shoulder_pan_upper_limit="${pi/2}"
+    shoulder_lift_lower_limit="${-pi}" shoulder_lift_upper_limit="${0}"
+    elbow_joint_lower_limit="${-pi}" elbow_joint_upper_limit="${pi}"
+    wrist_1_lower_limit="${-pi}" wrist_1_upper_limit="${pi}"
+    wrist_2_lower_limit="${-pi}" wrist_2_upper_limit="${pi}"
+    wrist_3_lower_limit="${-2*pi}" wrist_3_upper_limit="${2*pi}"
+    transmission_hw_interface="$(arg transmission_hw_interface)"
+  />
+
+  <!-- defining robot position in world frame -->
+  <link name="world" />
+  <joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link = "base_link" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+  <!-- ft sensor-->
+  <xacro:include filename="$(find robotiq_ft_sensor)/urdf/robotiq_ft300.urdf.xacro" />
+  <xacro:robotiq_ft300 parent="ee_link" prefix="">
+      <origin xyz="-0.005 0.0 0.0" rpy="0.0 ${pi/2} 0.0"/>
+    </xacro:robotiq_ft300>
+
+  <!-- gripper -->
+  <xacro:include filename="$(find robotiq_2f_85_gripper_visualization)/urdf/robotiq_arg2f_85_model_macro.xacro" />
+  <xacro:robotiq_arg2f_85 prefix=""/>
+
+  <joint name="ftsensor_to_gripper" type="fixed">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 ${pi/2}"/>
+    <parent link="robotiq_ft_frame_id"/>
+    <child link="robotiq_arg2f_base_link"/>
+  </joint>
+
+  <!-- defining end effector -->
+  <link name="endeffector_link"/>
+  <joint name="endeffector_joint" type="fixed">
+    <parent link="tool0" />
+    <child link = "endeffector_link" />
+    <origin xyz="0.0 0.0 0.175" rpy="0.0 0.0 0.0" />
+  </joint>
+
+  <!-- realsense -->
+  <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
+  <xacro:sensor_d435 parent="endeffector_link" use_nominal_extrinsics="true" add_plug="false" use_mesh="true">
+    <origin xyz="0.013 0.056 -0.122" rpy="-0.474 -1.545 -1.081"/>
+  </xacro:sensor_d435>
+
+</robot>

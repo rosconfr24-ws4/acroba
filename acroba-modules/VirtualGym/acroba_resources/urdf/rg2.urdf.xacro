@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<robot name="rg2" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find acroba_resources)/urdf/rg2_macro.xacro"/>
+  <xacro:rg2 prefix=""/>
+  <link name="base_link"/>
+  <joint name="world" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="base_tool"/>
+  </joint>
+</robot>

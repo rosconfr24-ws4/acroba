@@ -1,0 +1,206 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro"
+       name="ikor_cell" >
+
+ 
+ <!-- Robotics system-->
+  <!-- include -->
+   <!-- ur5 -->
+  <xacro:include filename="$(find acroba_resources)/urdf/ur5_macro.xacro" />
+
+  <!-- instanciate -->
+   <xacro:ur5_robot prefix="" joint_limited="false"/>
+
+   <!-- Cylinder as a tool-->
+   <xacro:property name="tool_length" value="0.15" />
+   <xacro:property name="tool_radius" value="0.01" />
+   <link name="tool_body">
+     <visual>
+    <origin xyz="0 0 ${tool_length*0.5}" rpy="0 0 0"/>
+    <geometry>
+          <cylinder radius="${tool_radius}" length="${tool_length}"/>
+      </geometry>
+    <material name="tool_color">
+        <color rgba="0.6 0.7 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+        <origin xyz="0 0 ${tool_length*0.5}" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${tool_radius}" length="${tool_length}"/>
+      </geometry>
+    </collision>
+    </link>
+
+    <joint name="base_tool_joint" type="fixed">
+        <parent link="tool0" />
+        <child link = "tool_body" />
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+    </joint>
+    <link name="end_tool"/>
+    <joint name="end_tool_joint" type="fixed">
+        <parent link="tool_body" />
+        <child link = "end_tool" />
+        <origin xyz="0.0 0.0 ${tool_length}" rpy="0.0 0.0 0.0" />
+    </joint>
+
+  <link name="base_world"/>
+  <joint name="base_world_joint" type="fixed">
+    <parent link="base_world" />
+    <child link = "base_link" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+  <link name="world" />
+  <joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link = "base_world" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+<!-- Obstacles-->
+<link name="table">
+     <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+          <mesh filename="package://acroba_resources/meshes/icpe_case/bench.dae" scale="1 1 1"/>
+      </geometry>
+    <material name="bench_color">
+        <color rgba="0.85 0.85 0.85 1"/>
+      </material>
+  </visual>
+  <collision>
+    <origin xyz="0 0 -0.02" rpy="0 0 0"/>
+    <geometry>
+      <box size="2 1 0.04"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="table_joint" type="fixed">
+    <parent link="base_world" />
+    <child link = "table" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+</joint>
+
+<link name="support">
+     <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+          <mesh filename="package://acroba_resources/meshes/icpe_case/support.dae" scale="1 1 1"/>
+      </geometry>
+    <material name="bench_color">
+        <color rgba="1 0.85 0.85 1"/>
+      </material>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+          <mesh filename="package://acroba_resources/meshes/icpe_case/support.dae" scale="1 1 1"/>
+      </geometry>
+  </collision>
+</link>
+
+<joint name="support_joint" type="fixed">
+    <parent link="base_world" />
+    <child link = "support" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+</joint>
+
+<link name="cylinder">
+     <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+          <mesh filename="package://acroba_resources/meshes/icpe_case/cylinder.dae" scale="1 1 1"/>
+      </geometry>
+    <material name="cylinder_color">
+        <color rgba="1 0.8 0.79 1"/>
+      </material>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+          <mesh filename="package://acroba_resources/meshes/icpe_case/cylinder.dae" scale="1 1 1"/>
+      </geometry>
+  </collision>
+</link>
+
+<joint name="cylinder_joint" type="fixed">
+    <parent link="base_world" />
+    <child link = "cylinder" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+</joint>
+
+<link name="magnet_plate_1">
+     <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+          <mesh filename="package://acroba_resources/meshes/icpe_case/magnet_plate_1_dec.dae" scale="1 1 1"/>
+      </geometry>
+    <material name="plate1_color">
+        <color rgba="0.4 0.4 0.9 1"/>
+      </material>
+  </visual>
+  <collision>
+    <origin xyz="-0.64 0.225 0.0015" rpy="0 0 0"/>
+    <geometry>
+          <box size="0.42 0.43 0.003"/>
+      </geometry>
+  </collision>
+</link>
+
+<joint name="magnet_plate1_joint" type="fixed">
+    <parent link="base_world" />
+    <child link = "magnet_plate_1" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+</joint>
+
+<link name="magnet_plate_2">
+     <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+          <mesh filename="package://acroba_resources/meshes/icpe_case/magnet_plate_2_dec.dae" scale="1 1 1"/>
+      </geometry>
+    <material name="plate1_color">
+        <color rgba="0.4 0.4 0.9 1"/>
+      </material>
+  </visual>
+  <collision>
+    <origin xyz="-0.64 -0.225 0.0015" rpy="0 0 0"/>
+    <geometry>
+          <box size="0.42 0.43 0.003"/>
+      </geometry>
+  </collision>
+</link>
+
+<joint name="magnet_plate2_joint" type="fixed">
+    <parent link="base_world" />
+    <child link = "magnet_plate_2" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+</joint>
+
+<link name="magnet_supports">
+     <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+          <mesh filename="package://acroba_resources/meshes/icpe_case/magnet_supports_dec.dae" scale="1 1 1"/>
+      </geometry>
+    <material name="support_color">
+        <color rgba="0.9 0.4 0.4 1"/>
+      </material>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+          <mesh filename="package://acroba_resources/meshes/icpe_case/magnet_supports_dec.dae" scale="1 1 1"/>
+      </geometry>
+  </collision>
+</link>
+
+<joint name="magnet_support_joint" type="fixed">
+    <parent link="base_world" />
+    <child link = "magnet_supports" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+</joint>
+
+</robot>

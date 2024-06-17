@@ -1,0 +1,19 @@
+<launch>
+  <!-- The rpy in the comment uses the extrinsic XYZ convention, which is the same as is used in a URDF. See
+       http://wiki.ros.org/geometry2/RotationMethods and https://en.wikipedia.org/wiki/Euler_angles for more info. -->
+  <!-- xyz="-0.0647489 -0.114678 0.161235" rpy="3.13299 2.88904 3.13971" -->
+  <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="camera_link_broadcaster"
+      args="-0.0647489 -0.114678 0.161235   -0.00438568 0.125936 -0.00147396 0.992028 tool0 zivid_optical_frame" /> -->
+  <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="camera_link_broadcaster"
+      args="-0.0692786 -0.112389 0.164597   -0.00610247 0.130419 -0.00234439 0.991437 tool0 zivid_optical_frame" /> -->
+  <!-- HALCON -->    
+
+      <node pkg="tf2_ros" type="static_transform_publisher" name="smartshift_link_broadcaster"
+        args="0.0 0.0 0.0 0.0 0.0 1.0 0.0 tool0 smartshift" />
+
+      <node pkg="tf2_ros" type="static_transform_publisher" name="base_camera_link_broadcaster"
+        args="-0.007223 0.067194 0.123316 -0.5 -0.5 -0.5 0.5 smartshift base_camera" />
+
+      <node pkg="tf2_ros" type="static_transform_publisher" name="optical_link_broadcaster"
+        args="0.065 0.062 0.0445 -0.4615708 0.5356793 -0.5356793 0.4615708 base_camera optical_frame" />
+</launch>

@@ -1,0 +1,15 @@
+string piece_type
+string color
+
+---
+# Define result's message
+geometry_msgs/Pose grasping_pose
+string frame_id
+bool cartesian
+string color
+string message
+string success
+
+---
+# Define feedback's message
+

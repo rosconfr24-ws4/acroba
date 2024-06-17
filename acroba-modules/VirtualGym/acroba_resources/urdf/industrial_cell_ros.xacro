@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro"
+       name="kr3_egp50" >
+
+ 
+  <!-- include -->
+  <xacro:include filename="$(find acroba_resources)/urdf/kr3r540_macro.xacro" />
+<xacro:include filename="$(find acroba_resources)/urdf/schunk_EGP50_macro.xacro"/>
+  
+  <!-- instanciate -->
+  <xacro:kuka_kr3r540 prefix=""/>
+  <xacro:schunk_egp50 prefix=""/>
+
+  <link name="world" />
+  <joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link = "base_link" />
+    <origin xyz= "0.718400001525879 0.150999993085861 0.84799998998642" rpy= "0 0 1.570796"/>
+  </joint>
+
+  <joint name="tool_joint" type="fixed">
+    <parent link="tool0" />
+    <child link = "base_tool" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 3.141592" />
+  </joint>
+<!-- Disabling collision between tool and robot, maybe not necessary-->
+<disable_collision link1="link_6" link2="tool_body"/>
+</robot>

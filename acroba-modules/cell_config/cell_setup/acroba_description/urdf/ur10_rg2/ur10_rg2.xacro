@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="ur10_rg2">
+
+  <!-- defining robot position in world frame -->
+  <link name="world" />
+  <joint name="world_to_robot_joint" type="fixed">
+    <parent link="world" />
+    <child link = "base_link" />
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+  </joint>
+
+  <!-- importing robot -->
+  <xacro:include filename="$(find ur_description)/urdf/ur10.xacro"/>
+
+  <!-- importing tool/gripper -->
+  <xacro:include filename="$(find acroba_description)/urdf/gripperRG2/gripperRG2.xacro"/>
+  <xacro:gripperRG2 prefix="" connected_to="tool0"/>
+</robot>

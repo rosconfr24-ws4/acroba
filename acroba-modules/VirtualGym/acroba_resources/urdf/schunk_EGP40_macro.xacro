@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:macro name="schunk_egp40" params="prefix">
+    <material name="schunk_dark_grey">
+    <color rgba="0.3 0.3 0.3 1.0"/>
+  </material>
+  <material name="schunk_grey">
+    <color rgba="0.8 0.8 0.8 1.0"/>
+  </material>
+
+  <material name="schunk_blue">
+    <color rgba="0. 0. 0.2 1.0"/>
+  </material>
+
+  <link name="${prefix}base_tool"/>
+
+    
+    <link name="${prefix}tool_adaptor">
+        <visual>
+        <origin xyz="0 0 0.0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="package://acroba_resources/meshes/schunk_EGP40/base.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <material name="schunk_grey"/>
+        </visual>
+        <collision>
+        <origin xyz="0 0 -0.0015" rpy="0 0 0" />
+        <geometry>
+            <cylinder radius="0.045" length="0.019"/>
+        </geometry>
+        </collision>
+    </link>
+
+  <link name="${prefix}tool_body">
+      <visual>
+        <origin xyz="0 0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://acroba_resources/meshes/schunk_EGP40/body.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <material name="schunk_blue"/>
+      </visual>
+      <collision>
+       <origin xyz="0 0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://acroba_resources/meshes/schunk_EGP40/body_convex.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+      </collision>
+    </link>
+
+    
+    <link name="${prefix}left_finger">
+      <visual>
+        <origin xyz="0 0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://acroba_resources/meshes/schunk_EGP40/finger_1.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <material name="schunk_grey"/>
+      </visual>
+       <collision>
+        <origin xyz="-0.011 0 0.1325" rpy="0 0 0" />
+        <geometry>
+          <box size="0.006 0.017 0.017"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="${prefix}right_finger">
+      <visual>
+        <origin xyz="0 0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://acroba_resources/meshes/schunk_EGP40/finger_2.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <material name="schunk_grey"/>
+      </visual>
+      <collision>
+        <origin xyz="0.011 0 0.1325" rpy="0 0 0" />
+        <geometry>
+          <box size="0.006 0.017 0.017"/>
+        </geometry>
+      </collision>
+    </link>
+
+
+<joint name="${prefix}_tool_base_adaptor" type="fixed">
+    <origin xyz="0 0 0.0" rpy="0 0 0"/>
+    <parent link="${prefix}base_tool"/>
+    <child link="${prefix}tool_adaptor"/>
+</joint>
+
+
+<joint name="${prefix}_tool_adaptor_body" type="fixed">
+    <origin xyz="0 0 0.0" rpy="0 0 0"/>
+    <parent link="${prefix}tool_adaptor"/>
+    <child link="${prefix}tool_body"/>
+</joint>
+
+<joint name="${prefix}_left_joint" type="prismatic">
+    <origin xyz="0 0 0.0" rpy="0 0 0"/>
+    <parent link="${prefix}tool_body"/>
+    <child link="${prefix}left_finger"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="215" lower="0" upper="0.006" velocity="10"/>
+</joint>
+
+<joint name="${prefix}_right_joint" type="prismatic">
+    <origin xyz="0 0 0.0" rpy="0 0 0"/>
+    <parent link="${prefix}tool_body"/>
+    <child link="${prefix}right_finger"/>
+    <axis xyz="-1 0 0"/>
+    <limit effort="215" lower="0" upper="0.006" velocity="10"/>
+</joint>
+
+
+<link name="tool_tip"/>
+<joint name="${prefix}_end_tool" type="fixed">
+    <origin xyz="0 0 0.136" rpy="0 0 0"/>
+    <parent link="${prefix}tool_body"/>
+    <child link="${prefix}tool_tip"/>
+</joint>
+
+    </xacro:macro>
+</robot>

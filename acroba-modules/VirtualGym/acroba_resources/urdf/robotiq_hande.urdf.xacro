@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="robotiq_hande"  params="prefix">
+    <link name="${prefix}base_tool">
+      <inertial>
+        <origin xyz="0 0 0.04607" rpy="0 0 0" />
+        <mass value="0.86387" />
+        <inertia ixx="1017560E-9" ixy="0" ixz="2235E-9" iyy="1028041E-9" iyz="0" izz="489810E-9" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://acroba_resources/meshes/robotiq_hande/hand-e.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="Gazebo/Black">
+          <color rgba="0.1 0.1 0.1 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.05" rpy="0 0 0" />
+        <geometry>
+          <cylinder radius="0.0375" length="0.1"/>
+        </geometry>
+      </collision>
+    </link>
+    <gazebo reference="${prefix}base_tool">
+      <material>Gazebo/Black</material>
+      <selfCollide>True</selfCollide>
+    </gazebo>
+
+    <link name="${prefix}left_finger">
+      <inertial>
+        <origin rpy="0 0 0" xyz="0.02262 -0.00759 0.00738"/>
+        <mass value="0.03804"/>
+        <inertia ixx="13567E-9" ixy="1849E-9" ixz="3622E-9" iyy="15784E-9" iyz="3616E-9" izz="7478E-9"/>
+      </inertial>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://acroba_resources/meshes/robotiq_hande/finger_1.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="Gazebo/Grey">
+          <color rgba="0.1 0.1 0.1 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0.03 0 0.0285" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.01 0.02 0.047"/>
+        </geometry>
+      </collision>
+    </link>
+    <gazebo reference="${prefix}left_finger">
+      <material>Gazebo/Grey</material>
+      <selfCollide>True</selfCollide>
+    </gazebo>
+
+    <link name="${prefix}right_finger">
+      <inertial>
+        <origin rpy="0 0 0" xyz="-0.02262 0.00759 0.00738"/>
+        <mass value="0.03804"/>
+        <inertia ixx="13567E-9" ixy="1849E-9" ixz="-3622E-9" iyy="15784E-9" iyz="-3616E-9" izz="7478E-9"/>
+      </inertial>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://acroba_resources/meshes/robotiq_hande/finger_2.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="Gazebo/Grey">
+          <color rgba="0.1 0.1 0.1 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="-0.03 0 0.0285" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.01 0.02 0.047"/>
+        </geometry>
+      </collision>
+    </link>
+    <gazebo reference="${prefix}right_finger">
+      <material>Gazebo/Grey</material>
+      <selfCollide>True</selfCollide>
+    </gazebo>
+
+    <joint name="${prefix}joint_finger_left" type="prismatic">
+      <origin rpy="0 0 0" xyz="0 0 0.099"/>
+      <parent link="${prefix}base_tool"/>
+      <child link="${prefix}left_finger"/>
+      <axis xyz="-1 0 0"/>
+      <limit effort="130" lower="0" upper="0.025" velocity="0.15"/>
+    </joint>
+
+    <joint name="${prefix}joint_finger_right" type="prismatic">
+      <origin rpy="0 0 0" xyz="0 0 0.099"/>
+      <parent link="${prefix}base_tool"/>
+      <child link="${prefix}right_finger"/>
+      <axis xyz="1 0 0"/>
+      <limit effort="130" lower="0" upper="0.025" velocity="0.15"/>
+    </joint>
+
+     <link name="end_tool"/>
+  <joint name="joint_gripping" type="fixed">
+    <origin rpy="0 0 0" xyz="0. 0 0.146"/>
+    <parent link="${prefix}base_tool"/>
+    <child link="${prefix}end_tool"/>
+  </joint>
+
+  </xacro:macro>
+</robot>

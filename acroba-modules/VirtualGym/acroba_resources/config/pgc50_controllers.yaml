@@ -1,0 +1,14 @@
+# Publish all joint states -----------------------------------
+finger_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50  
+# Effort Controllers ---------------------------------------
+finger1_effort_controller:
+  type: effort_controllers/JointPositionController
+  joint: joint_base_finger_1
+  pid: {p: 100.0, i: 0.01, d: 10.0}
+
+finger2_effort_controller:
+  type: effort_controllers/JointPositionController
+  joint: joint_base_finger_2
+  pid: {p: 100.0, i: 0.01, d: 10.0}

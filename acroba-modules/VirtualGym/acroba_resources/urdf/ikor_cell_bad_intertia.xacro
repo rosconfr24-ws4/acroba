@@ -1,0 +1,241 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro"
+       name="ikor_cell" >
+
+ 
+ <!-- Robotics system-->
+  <!-- include -->
+  <xacro:include filename="$(find acroba_resources)/urdf/tm5x-900-nominal_macro.xacro" />
+  <xacro:include filename="$(find acroba_resources)/urdf/support_ikor1_macro.xacro" />
+  <xacro:include filename="$(find acroba_resources)/urdf/pgc50_macro.xacro"/>
+  
+  <!-- instanciate -->
+   <xacro:tm5x-900 ns="" prefix="" color="lightgrey" format="stl"/>
+ 
+  <xacro:support_ikor1 prefix=""/>
+  <xacro:pgc50 prefix=""/>
+
+  <link name="world" />
+
+
+  <joint name="tool_extension_joint" type="fixed">
+    <parent link="tool0" />
+    <child link = "extension" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+  <joint name="tool__extension_joint" type="fixed">
+    <parent link="extension_tool0" />
+    <child link = "base_tool" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+<!-- Disabling collision between tool and robot, maybe not necessary-->
+<disable_collision link1="wrist_3_link" link2="extension"/>
+<disable_collision link1="extension_tool0" link2="base_tool"/>
+
+<link name="base_link"/>
+<joint name="base_link_joint" type="fixed">
+    <parent link="base_link" />
+    <child link = "base" />
+    <origin xyz= "0.0 0.0 0.0" rpy= "0 0 0"/>
+  </joint>
+
+<joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link = "base_link" />
+    <origin xyz= "0.451 -0.833 0.895" rpy= "0 0 0"/>
+  </joint>
+
+<link name="cell_floor">
+  <visual>
+      <origin xyz="0 0 -0.0025" rpy="0 0 0"/>
+      <geometry>
+         <box size="4 4 0.005"/>
+      </geometry>
+      <material name="floor">
+        <color rgba="0.78 0.78 0.78 1"/>
+      </material>
+  </visual>
+  <collision>
+      <origin xyz="0 0 -0.0025" rpy="0 0 0"/>
+      <geometry>
+         <box size="4 4 0.005"/>
+      </geometry>
+  </collision>
+</link>
+
+<joint name="floor_joint" type="fixed">
+  <parent link="world" />
+    <child link = "cell_floor" />
+    <origin xyz= "0 0 0" rpy= "0 0 0"/>
+  </joint>
+
+<link name="vibrating_frame"/>
+<joint name="vibrating_joint" type="fixed">
+    <parent link="world" />
+    <child link = "vibrating_frame" />
+    <origin xyz= "-0.014 -0.582  0.798" rpy= "0 0 ${-pi/2}"/>
+  </joint>
+
+<link name="vibrating_cube">
+    <visual>
+      <origin xyz="0 0 0.0" rpy="0 0 0"/>
+      <geometry>
+          <mesh filename="package://acroba_resources/meshes/ikor_case/ASYCUBE.dae" scale="1 1 1"/>
+      </geometry>
+      <material name="cube">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.0" rpy="0 0 0"/>
+      <geometry>
+         <mesh filename="package://acroba_resources/meshes/ikor_case/ASYCUBE.dae" scale="1 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+
+<joint name="cube_joint" type="fixed">
+    <parent link="vibrating_frame" />
+    <child link = "vibrating_cube" />
+    <origin xyz= "-0.1969 -0.0144 0.1059" rpy= "${pi/2}  0 ${-pi/2}"/>
+  </joint>
+
+  <link name="vibrating_table">
+    <visual>
+      <origin xyz="0 0 0.0" rpy="0 0 0"/>
+      <geometry>
+          <mesh filename="package://acroba_resources/meshes/ikor_case/ASY_HOPPER.dae" scale="1 1 1"/>
+      </geometry>
+      <material name="cube">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.0" rpy="0 0 0"/>
+      <geometry>
+         <mesh filename="package://acroba_resources/meshes/ikor_case/ASY_HOPPER.dae" scale="1 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+
+<joint name="table_joint" type="fixed">
+    <parent link="vibrating_frame" />
+    <child link = "vibrating_table" />
+    <origin xyz= "-0.31192 0.16958 0.0759" rpy= "${pi/2} 0 0"/>
+  </joint>
+
+<link name="operator_table">
+    <visual>
+      <origin xyz="0 0 0.0" rpy="0 0 0"/>
+      <geometry>
+          <mesh filename="package://acroba_resources/meshes/ikor_case/Puesto_de_montaje.dae" scale="1 1 1"/>
+      </geometry>
+      <material name="cube">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <!--<collision>
+      <origin xyz="0 0 0.0" rpy="0 0 0"/>
+      <geometry>
+         <mesh filename="package://acroba_resources/meshes/ikor_case/Puesto_de_montaje.dae" scale="1 1 1"/>
+      </geometry>
+    </collision>-->
+    <collision>
+      <origin xyz="1 -0.07 0.899" rpy="0 0 0"/>
+      <geometry>
+         <box size="2 0.44 0.005"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="1 0.8256 0.9225" rpy="0 0 0"/>
+      <geometry>
+         <box size="1.9 0.48 0.005"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="1 0.62 1.1125" rpy="0 0 0"/>
+      <geometry>
+         <box size="2.002 0.238 0.005"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="1 0.64 1.5" rpy="0 0 0"/>
+      <geometry>
+         <box size="2 0.005 3"/>
+      </geometry>
+    </collision>
+  </link>
+
+<joint name="operatorjoint" type="fixed">
+    <parent link="world" />
+    <child link = "operator_table" />
+    <origin xyz= "-0.017 -1.412 0" rpy= "0 0 1.5707"/>
+  </joint>
+
+<link name="intermediate_surface">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.123 0.1 0.005"/>
+    </geometry>
+    <material name="inter_suface">
+        <color rgba="1 0.76 0.82 1"/>
+      </material>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.123 0.1 0.005"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="inter_joint"/>
+<joint name="inter_joint1" type="fixed">
+    <parent link="world" />
+    <child link = "inter_joint" />
+    <origin xyz= "0.087 -0.74 0.9202" rpy= "0 -0.262 0"/>
+  </joint>
+
+<joint name="inter_joint2" type="fixed">
+    <parent link="inter_joint" />
+    <child link = "intermediate_surface" />
+    <origin xyz= "0 0 0" rpy= "0 0 0"/>
+  </joint>
+
+
+<!--  Camera -->
+<link name="photoneo">
+    <visual>
+      <origin xyz="0 0 0.0" rpy="0 0 0"/>
+      <geometry>
+          <mesh filename="package://acroba_resources/meshes/ikor_case/photoneo.dae" scale="1 1 1"/>
+      </geometry>
+      <material name="photoneo_color">
+        <color rgba="0.1 0.2 0.90 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.0" rpy="0 0 0"/>
+      <geometry>
+         <mesh filename="package://acroba_resources/meshes/ikor_case/photoneo.dae" scale="1 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="camera_frame_intermediate"/>
+  <joint name="camera_joint" type="fixed">
+    <parent link="world" />
+    <child link = "camera_frame_intermediate" />
+    <origin xyz= "${0.0484+0.057} -0.4667 ${-0.171+1.3813}" rpy= "${pi/2} 0 ${pi}"/>
+  </joint>
+
+   <joint name="camera_joint2" type="fixed">
+    <parent link="camera_frame_intermediate" />
+    <child link = "photoneo" />
+    <origin xyz= "0.026 0.0289 0.0045" rpy= "0 0 0"/>
+  </joint>
+
+</robot>

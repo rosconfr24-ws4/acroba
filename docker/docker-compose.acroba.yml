@@ -1,0 +1,124 @@
+name: acroba
+
+volumes:
+  data:
+    name: "${PROJECT}_data"
+    external: true
+  logs:
+    name: "${PROJECT}_logs"
+    external: true
+
+networks:
+  ros_network:
+    driver: bridge
+
+
+services:
+
+  ###################################################
+  #               ACROBA MODULES                    #
+  ###################################################
+
+  skills: 
+    image: acroba/skills
+    profiles:
+      - acroba
+      - drl
+    extends: 
+      file: acroba-common-services.yml 
+      service: acroba-module-ros-sshd-$X-$GPU
+    environment:
+      - "SSH_PORT=5022"
+    command: 
+      ["roscon"]
+    
+  skills-vg: 
+    image: acroba/skills_vg
+    profiles:
+      - acroba
+      - drl
+    extends: 
+      file: acroba-common-services.yml 
+      service: acroba-module-ros-sshd-$X-$GPU
+    environment:
+      - "SSH_PORT=5023"
+    command: 
+      ["roscon"]
+    depends_on: 
+      virtualgym: 
+        condition: service_started
+    
+  virtualgym: 
+    image: acroba/virtualgym
+    profiles:
+      - acroba
+      - drl
+    extends: 
+      file: acroba-common-services.yml 
+      service: acroba-virtualgym-$NET
+    environment:
+      - "SSH_PORT=5024"
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    privileged: true
+    command: 
+       ["roscon", $VG_SETUP]  
+
+  taskplanner:
+    image: acroba/taskplanner
+    profiles:
+      - acroba
+    extends: 
+      file: acroba-common-services.yml 
+      service: acroba-module-ros-$X  
+    volumes:
+      - "../.config/ssh/private:/home/acroba/config/ssh"
+    depends_on: 
+      virtualgym: 
+        condition: service_started
+      skills-vg: 
+        condition: service_started
+      skills: 
+        condition: service_started
+      
+
+
+  ###################################################
+  #               PLATFORM UTILS                    #
+  ###################################################
+
+  initializer: 
+    image: acroba/acroba-base-ros1
+    command: >
+      /bin/sh -c "
+      mkdir /home/acroba/logs/$LOG_DIR/ && 
+      ln -sfn /home/acroba/logs/$LOG_DIR/ /home/acroba/logs/latest;
+      "
+    entrypoint: []
+    volumes:
+      - "logs:/home/acroba/logs"
+    working_dir: /home/acroba/logs
+
+
+  roscore:
+    image: ros:noetic-ros-core
+    volumes: 
+      - "logs:/home/acroba/logs"
+    environment: 
+      - ROS_LOG_DIR=/home/acroba/logs/latest/ros1/
+    command: roscore 
+    restart: on-failure
+    extends: 
+      file: acroba-common-services.yml 
+      service: roscore-network-$NET
+    depends_on:
+      initializer: 
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "/bin/bash", "-c", "source /opt/ros/noetic/setup.bash && rostopic list || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s 
+      start_interval: 1s # does not seem to work! thus left interval set to 10s above...  
+

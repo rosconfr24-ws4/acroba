@@ -1,0 +1,64 @@
+<launch>
+
+  <!-- these are the arguments you can pass this launch file, for example paused:=true -->
+  <arg name="paused" default="true"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+  <arg name="verbose" default="true"/>
+  <arg name="initial_joint1" default="0.03"/>
+<arg name="initial_joint2" default="-2.2"/>
+<arg name="initial_joint3" default="0.8"/>
+<arg name="initial_joint4" default="0"/>
+<arg name="initial_joint5" default="0"/>
+<arg name="initial_joint6" default="0"/>
+<arg name="joint_pub" default="false"/>
+
+  <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+ <!-- startup simulated world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" default="worlds/empty.world"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="verbose" value="$(arg verbose)"/>
+  </include>
+
+
+  <!-- Load the URDF into the ROS Parameter Server -->
+  <param name="robot_description"
+    command="$(find xacro)/xacro --inorder '$(find picking_resources)/urdf/kr20r1810.xacro'" />
+
+  <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    args="-urdf -model ulma_cell -param robot_description
+    -J  joint_a1 -1.0 -J joint_a2 -2
+    -J joint_a3 0 -J joint_a4 0 
+    -J joint_a5 1.4 -J joint_a6 1.4 -unpause"/>
+
+  <!-- ros_control control launch file -->
+  <include file="$(find kuka_kr20r1810_control)/launch/kr20r1810_control.launch">
+    <arg name="controllers" value="joint_state_controller joint1_position_controller
+    joint2_position_controller joint3_position_controller joint4_position_controller
+    joint5_position_controller joint6_position_controller"/>
+  </include>
+
+<group if="$(arg joint_pub)">
+  <!-- to be able to move the robot manually-->
+ <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+  <param name="use_gui" value="true"/>
+	</node>
+  
+<!--joint joint_sate with joint control commands-->
+  <node name="joint_splitter" pkg="picking_experiments" type="jointState_splitter">
+    <remap from="/joint_1_val" to="/kr20r1810/joint1_position_controller/command"/>
+    <remap from="/joint_2_val" to="/kr20r1810/joint2_position_controller/command"/>
+    <remap from="/joint_3_val" to="/kr20r1810/joint3_position_controller/command"/>
+    <remap from="/joint_4_val" to="/kr20r1810/joint4_position_controller/command"/>
+    <remap from="/joint_5_val" to="/kr20r1810/joint5_position_controller/command"/>
+    <remap from="/joint_6_val" to="/kr20r1810/joint6_position_controller/command"/>
+  </node>
+  </group>
+
+
+</launch>

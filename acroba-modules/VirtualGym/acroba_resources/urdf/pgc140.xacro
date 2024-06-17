@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<robot name="pgc140" xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:include filename="$(find acroba_resources)/urdf/pgc140_macro.xacro"/>
+  <xacro:pgc140 prefix=""/>
+  <link name="world"/>
+  <joint name="world" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="world"/>
+    <child link="base_tool"/>
+  </joint>
+
+  <gazebo>
+      <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      </plugin>
+    </gazebo>
+</robot>

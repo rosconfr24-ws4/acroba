@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<robot name="cabka_tool" xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:include filename="$(find acroba_resources)/urdf/cabka_tool_macro.xacro"/>
+  <xacro:cabka_tool prefix=""/>
+  <link name="world"/>
+  <joint name="joint_world" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="world"/>
+    <child link="base_tool"/>
+  </joint>
+</robot>

@@ -1,0 +1,4 @@
+int32 num_pieces #number of pieces to spawn
+int32 piece_enum #piece enumeration
+---
+bool finished #true if finished withour error

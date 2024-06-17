@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="ur5_with_gripper">
+    <xacro:macro name="cell" params="prefix stl_file *origin">
+        <link name="cell_link">
+            <visual>
+                <geometry>
+                    <mesh filename="${stl_file}"/>
+                </geometry>
+                <material name="grey">
+                    <color rgba="${170/255} ${170/255} ${170/255} 1"/>
+                </material>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="${stl_file}"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint name="world_to_cell_joint" type="fixed">
+            <parent link="world"/>
+            <child link="cell_link"/>
+            <xacro:insert_block name="origin" />
+        </joint>
+    </xacro:macro>
+</robot>
+    

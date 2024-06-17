@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<robot name="schunk" xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:include filename="$(find acroba_resources)/urdf/schunk_EGP40_macro.xacro"/>
+  <xacro:include filename="$(find acroba_resources)/urdf/schunk_EGP40_long_finger_macro.xacro"/>
+  <xacro:schunk_egp40_long prefix=""/>
+</robot>

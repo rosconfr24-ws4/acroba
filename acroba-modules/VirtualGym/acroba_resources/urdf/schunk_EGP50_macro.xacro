@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:macro name="schunk_egp50" params="prefix">
+    <material name="schunk_dark_grey">
+    <color rgba="0.3 0.3 0.3 1.0"/>
+  </material>
+  <material name="schunk_grey">
+    <color rgba="0.8 0.8 0.8 1.0"/>
+  </material>
+
+  <link name="${prefix}base_tool"/>
+
+    <link name="${prefix}tool_plate">
+        <visual>
+        <origin xyz="0 0 0.0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="package://acroba_resources/meshes/schunk_EGP50/visual/schunk_plate.stl" />
+        </geometry>
+        <material name="schunk_grey"/>
+        </visual>
+        <collision>
+        <origin xyz="0 0 -0.0145" rpy="0 0 0" />
+        <geometry>
+            <cylinder radius="0.04" length="0.013"/>
+        </geometry>
+        </collision>
+    </link>
+
+    <link name="${prefix}tool_adaptor">
+        <visual>
+        <origin xyz="0 0 0.0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="package://acroba_resources/meshes/schunk_EGP50/visual/schunk_adaptor.stl" />
+        </geometry>
+        <material name="schunk_grey"/>
+        </visual>
+        <collision>
+        <origin xyz="0 0 -0.004" rpy="0 0 0" />
+        <geometry>
+            <box size="0.03 0.07 0.008"/>
+        </geometry>
+        </collision>
+    </link>
+
+  <link name="${prefix}tool_body">
+      <visual>
+        <origin xyz="0 0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://acroba_resources/meshes/schunk_EGP50/visual/schunk_body_scaled.stl" />
+        </geometry>
+        <material name="schunk_grey"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.0522" rpy="0 0 0" />
+        <geometry>
+          <box size="0.03 0.0508 0.104" />
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="${prefix}_left_base_finger">
+      <visual>
+        <origin xyz="0 0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://acroba_resources/meshes/schunk_EGP50/visual/schunk_left_finger_base_scaled.stl" />
+        </geometry>
+        <material name="schunk_dark_grey"/>
+      </visual>
+      <collision>
+        <origin xyz="0.0 -0.021 0.11" rpy="0 0 0" />
+        <geometry>
+          <box size="0.0195 0.008 0.014"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="${prefix}_right_base_finger">
+      <visual>
+        <origin xyz="0 0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://acroba_resources/meshes/schunk_EGP50/visual/schunk_right_finger_base_scaled.stl" />
+        </geometry>
+        <material name="schunk_dark_grey"/>
+      </visual>
+      <collision>
+         <origin xyz="0.0 0.021 0.11" rpy="0 0 0" />
+        <geometry>
+          <box size="0.0195 0.008 0.014"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="${prefix}_left_adaptor_finger">
+      <visual>
+        <origin xyz="0 0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://acroba_resources/meshes/schunk_EGP50/visual/schunk_left_adaptor_scaled.stl" />
+        </geometry>
+        <material name="schunk_dark_grey"/>
+      </visual>
+      <collision>
+        <origin xyz="0.0 -0.0264 0.1231" rpy="0 0 0" />
+        <geometry>
+          <box size="0.017 0.026 0.036"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="${prefix}_right_adaptor_finger">
+      <visual>
+        <origin xyz="0 0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://acroba_resources/meshes/schunk_EGP50/visual/schunk_right_adaptor_scaled.stl" />
+        </geometry>
+        <material name="schunk_dark_grey"/>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0264 0.1231" rpy="0 0 0" />
+        <geometry>
+          <box size="0.017 0.026 0.036"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="${prefix}_left_visual_finger_tip">
+      <visual>
+        <origin xyz="0 0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://acroba_resources/meshes/schunk_EGP50/visual/schunk_left_tip_visual.stl" />
+        </geometry>
+        <material name="schunk_dark_grey"/>
+      </visual>
+      <collision>
+        <origin xyz="0.0 -0.029 0.1505" rpy="0 0 0" />
+        <geometry>
+          <box size="0.012 0.004 0.019"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="${prefix}_right_visual_finger_tip">
+      <visual>
+        <origin xyz="0 0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://acroba_resources/meshes/schunk_EGP50/visual/schunk_right_tip_visual.stl" />
+        </geometry>
+        <material name="schunk_dark_grey"/>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.029 0.1505" rpy="0 0 0" />
+        <geometry>
+          <box size="0.012 0.004 0.019"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="${prefix}_right_collision_finger_tip">
+      <collision>
+        <origin xyz="0.0 0.0265 0.153" rpy="1.5707 0 0" />
+        <geometry>
+          <cylinder radius="0.005" length="0.017"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="${prefix}_left_collision_finger_tip">
+      <collision>
+        <origin xyz="0.0 -0.0266 0.153" rpy="1.5707 0 0" />
+        <geometry>
+          <cylinder radius="0.005" length="0.017"/>
+        </geometry>
+      </collision>
+    </link>
+
+<joint name="${prefix}_tool_base_plate" type="fixed">
+    <origin xyz="0 0 0.018" rpy="0 0 0"/>
+    <parent link="${prefix}base_tool"/>
+    <child link="${prefix}tool_plate"/>
+</joint>
+
+<joint name="${prefix}_tool_plate_adaptor" type="fixed">
+    <origin xyz="0 0 0.0" rpy="0 0 0"/>
+    <parent link="${prefix}tool_plate"/>
+    <child link="${prefix}tool_adaptor"/>
+</joint>
+
+<joint name="${prefix}_tool_adaptor_body" type="fixed">
+    <origin xyz="0 0 0.0" rpy="0 0 0"/>
+    <parent link="${prefix}tool_adaptor"/>
+    <child link="${prefix}tool_body"/>
+</joint>
+
+<joint name="${prefix}_left_finger_base_joint" type="prismatic">
+    <origin xyz="0 0 0.0" rpy="0 0 0"/>
+    <parent link="${prefix}tool_body"/>
+    <child link="${prefix}_left_base_finger"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="215" lower="0" upper="0.008" velocity="10"/>
+</joint>
+
+<joint name="${prefix}_right_finger_base_joint" type="prismatic">
+    <origin xyz="0 0 0.0" rpy="0 0 0"/>
+    <parent link="${prefix}tool_body"/>
+    <child link="${prefix}_right_base_finger"/>
+    <axis xyz="0 -1 0"/>
+    <limit effort="215" lower="0" upper="0.008" velocity="10"/>
+</joint>
+
+<joint name="${prefix}_left_base_adaptor_joint" type="fixed">
+    <origin xyz="0 0 0.0" rpy="0 0 0"/>
+    <parent link="${prefix}_left_base_finger"/>
+    <child link="${prefix}_left_adaptor_finger"/>
+</joint>
+
+<joint name="${prefix}_right_base_adaptor_joint" type="fixed">
+    <origin xyz="0 0 0.0" rpy="0 0 0"/>
+    <parent link="${prefix}_right_base_finger"/>
+    <child link="${prefix}_right_adaptor_finger"/>
+</joint>
+
+<joint name="${prefix}_left_adaptor_vis_joint" type="fixed">
+    <origin xyz="0 0 0.0" rpy="0 0 0"/>
+    <parent link="${prefix}_left_adaptor_finger"/>
+    <child link="${prefix}_left_visual_finger_tip"/>
+</joint>
+
+<joint name="${prefix}_right_adaptor_vis_joint" type="fixed">
+    <origin xyz="0 0 0.0" rpy="0 0 0"/>
+    <parent link="${prefix}_right_adaptor_finger"/>
+    <child link="${prefix}_right_visual_finger_tip"/>
+</joint>
+
+<joint name="${prefix}_right_vis_col_joint" type="fixed">
+    <origin xyz="0 0 0.0" rpy="0 0 0"/>
+    <parent link="${prefix}_right_visual_finger_tip"/>
+    <child link="${prefix}_right_collision_finger_tip"/>
+</joint>
+
+<joint name="${prefix}_left_vis_col_joint" type="fixed">
+    <origin xyz="0 0 0.0" rpy="0 0 0"/>
+    <parent link="${prefix}_left_visual_finger_tip"/>
+    <child link="${prefix}_left_collision_finger_tip"/>
+</joint>
+
+    </xacro:macro>
+</robot>

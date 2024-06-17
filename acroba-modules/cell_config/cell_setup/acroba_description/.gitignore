@@ -1,0 +1,19 @@
+.vscode/
+
+# adding too large fil with the folowing command
+# find . -size +100M | sed 's|^\./||g' >> .gitignore
+
+.git/objects/c2/49d7a8ff8f44c2bea45b00cc300db1e9bef481meshes/cabka_palets/Hygienic_i7-1_(CD-5R).STEP
+meshes/cabka_palets/Endur_C7-2_(OD-3R)_Gro+Str.stp
+meshes/cabka_palets/Endur_i9-1_(OD-5R)_Gro.stp
+meshes/cabka_palets/NEST_E1-1_(OD-9F).stp
+meshes/cabka_palets/Endur_i7_(CD-6R)_Gro.stp
+meshes/cabka_palets/Endur_S7_(OD-3R)_Gro+Str.stp
+meshes/cabka_palets/Endur_i9_(OD-5R)_Gro+Str.stp
+meshes/cabka_palets/Endur_E7_(OD-3R)_non-options.STEP
+meshes/cabka_palets/Retail_E5-3_(OD-9F)_Gro.stp
+meshes/Steripack_CAD/Shell.STL
+meshes/bfh_cell/ACROBA_Demonstrator_ass.stl
+meshes/imr_cell/ACROBA_Cobot_Cell_Full_v5_test.stl
+meshes/imr_cell/ACROBA Cobot Cell Full v5.step
+meshes/imr_cell/ACROBA_Cobot_Cell_Full_v5.stl

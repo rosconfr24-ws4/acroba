@@ -1,0 +1,9 @@
+<launch>
+    <!-- VG camera and gripper primitives -->
+        <!-- camera -->
+    <node name="GetRGBDVG" pkg="skills_vg" type="pr_get_rgbd.py" respawn="true" output="screen"/>
+    <node name="test_get_rgbd" pkg="skills_vg" type="test_get_rgbd.py" respawn="true" output="screen"/>
+    <!-- gripper -->
+    <node name="MoveGripperVG" pkg="skills_vg" type="pr_move_gripper.py" respawn="true" output="screen"/>
+    <node name="Locate" pkg="skills_vg" type="sk_locate.py" respawn="true" output="screen"/>
+</launch>

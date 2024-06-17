@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="zivid_gazebo" params="name">
+
+    <gazebo reference="${name}gazebo_cam_link">
+      <!-- Depth (rgb) -->
+      <sensor type="depth" name="${name}_frame_sensor">
+        <always_on>true</always_on>
+        <update_rate>5.0</update_rate>
+
+        <camera>
+          <image>
+            <format>R8G8B8</format>
+            <width>1534</width><!--1944 in dataset,1534 in practise-->
+            <height>1150</height><!--1222 in dataset, 1150 in practise-->
+          </image>
+          <horizontal_fov>0.471</horizontal_fov> <!-- According to the specification 27º-->
+          <clip>
+            <near>0.1</near>
+            <far>1</far>
+          </clip>
+        </camera>
+
+        <plugin name="${name}_frame_controller" filename="libgazebo_ros_openni_kinect.so">
+          <alwaysOn>true</alwaysOn>
+          <updateRate>0.0</updateRate>
+          <cameraName>${name}</cameraName>
+          <imageTopicName>rgb/image_raw</imageTopicName>
+          <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+          <depthImageTopicName>depth/image_raw</depthImageTopicName>
+          <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+          <pointCloudTopicName>depth/points</pointCloudTopicName>
+          <frameName>${name}_optical_frame</frameName>
+          <pointCloudCutoff>0.05</pointCloudCutoff>
+          <pointCloudCutoffMax>5</pointCloudCutoffMax>
+
+          <rangeMax>4.0</rangeMax>
+          <!-- Distortion parameters not supported in gazebo 1.9.* plugins -->
+          <!--distortionK1>0.00000001</distortionK1>
+          <distortionK2>0.00000001</distortionK2>
+          <distortionK3>0.00000001</distortionK3>
+          <distortionT1>0.00000001</distortionT1>
+          <distortionT2>0.00000001</distortionT2-->
+        </plugin>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
+</robot>

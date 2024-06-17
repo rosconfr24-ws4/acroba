@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+    <xacro:macro name="cylinder_inertial" params="radius length mass *origin">
+      <inertial>
+        <mass value="${mass}" />
+        <xacro:insert_block name="origin" />
+        <inertia ixx="${0.0833333 * mass * (3 * radius * radius + length * length)}" ixy="0.0" ixz="0.0"
+          iyy="${0.0833333 * mass * (3 * radius * radius + length * length)}" iyz="0.0"
+          izz="${0.5 * mass * radius * radius}" />
+      </inertial>
+    </xacro:macro>
+
+   <xacro:macro name="support_ikor1" params="prefix">
+    <xacro:property name="extension_radius" value="0.0315" />
+    <xacro:property name="extension_length" value="0.092" />
+    <xacro:property name="extension_mass" value="0.2" />
+    <xacro:property name="extension_top_length" value="0.01" />
+    <xacro:property name="extension_top_mass" value="0.05" />
+
+    <link name="${prefix}extension" >
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="package://acroba_resources/meshes/miscellaneous/supportikor1/gripper_extension.stl" />
+        </geometry>
+        <material name="Grey">
+          <color rgba="0.5 0.5 0.5 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0 ${extension_length*0.5}" rpy="0 0 0" />
+        <geometry>
+          <cylinder radius="${extension_radius}" length="${extension_length}"/>
+        </geometry>
+      </collision>
+      
+      <xacro:cylinder_inertial radius="${extension_radius}" length="${extension_length}" mass="${extension_mass}">
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      </xacro:cylinder_inertial>
+      
+    </link>
+
+    <link name="${prefix}extension_top" >
+      <visual>
+        <origin xyz="0.0 0.0 ${extension_top_length}" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="package://acroba_resources/meshes/miscellaneous/supportikor1/gripper_extension_top.stl" />
+        </geometry>
+        <material name="Grey">
+          <color rgba="0.5 0.5 0.5 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0 ${extension_top_length*0.5}" rpy="0 0 0" />
+        <geometry>
+          <cylinder radius="${extension_radius}" length="${extension_top_length}"/>
+        </geometry>
+      </collision>
+      
+      <xacro:cylinder_inertial radius="${extension_radius}" length="${extension_length}" mass="0.2">
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      </xacro:cylinder_inertial>
+    </link>
+
+    <joint name="${prefix}joint_extensions" type="fixed">
+      <parent link="${prefix}extension" />
+      <child link = "${prefix}extension_top" />
+      <origin xyz="0.0 0.0 ${extension_length}" rpy="0.0 0.0 0.0" />
+    </joint>
+
+    <link name="${prefix}extension_tool0"/>
+    <joint name="${prefix}joint_extensiontool" type="fixed">
+      <parent link="${prefix}extension_top" />
+      <child link = "${prefix}extension_tool0" />
+      <origin xyz="0.0 0.0 ${extension_top_length}" rpy="0.0 0.0 0.0" />
+    </joint>
+
+    <disable_collision link1="${prefix}extension" link2="${prefix}extension_top"/>
+   </xacro:macro>
+</robot>
+

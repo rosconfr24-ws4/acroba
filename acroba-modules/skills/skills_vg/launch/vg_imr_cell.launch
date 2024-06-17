@@ -1,0 +1,23 @@
+<launch>
+    <arg name="endpoint_tcp_ip" default="localhost"/>
+    <arg name="endpoint_port" default="10000"/>
+
+    <!-- use simulation time -->
+    <rosparam param="/use_sim_time">true</rosparam>
+    
+    <!-- unity ros tcp connector -->
+    <include file="$(find ros_tcp_endpoint)/launch/endpoint.launch">
+        <arg name="tcp_ip" value="$(arg endpoint_tcp_ip)"/>
+        <arg name="tcp_port" value="$(arg endpoint_port)"/>
+    </include>
+
+    <!-- unity collaborative scene binary through aliencontrol -->
+    <node pkg="aliencontrol" type="aliencontrol" name="aliencontrol_top">
+        <param name="cmd" value="'$(find ros_tcp_endpoint)/../virtual_scenes/IMR_cell/IMR_cell.x86_64'"/>
+    </node>
+    
+    <!-- MoveIt with vg argument set to true -->
+    <include file="$(find imr_cell_moveit_config)/launch/imr_cell_moveit_config_planning_execution.launch">
+    	<arg name="vg" value="true"/>
+    </include>
+</launch>

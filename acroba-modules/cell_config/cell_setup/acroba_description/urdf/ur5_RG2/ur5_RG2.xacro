@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="ur5_RG2">
+
+  <!-- defining robot position in world frame -->
+  <link name="world" />
+  <joint name="world_to_robot_joint" type="fixed">
+    <parent link="world" />
+    <child link = "base_link" />
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+  </joint>
+
+  <!-- importing robot -->
+  <xacro:include filename="$(find ur_description)/urdf/ur5.xacro"/>
+
+  <!-- importing tool/gripper -->
+  <xacro:include filename="$(find acroba_description)/urdf/gripperRG2/gripperRG2.xacro"/>
+  <xacro:gripperRG2 prefix="" connected_to="tool0"/>
+  
+  <!-- importing camera use the value from the calibration for setting the origin -->
+  <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
+  <xacro:sensor_d435 parent="tcp" use_nominal_extrinsics="true" add_plug="false" use_mesh="true">
+    <origin xyz="0.013 0.056 -0.122" rpy="-0.474 -1.545 -1.081"/> 
+  </xacro:sensor_d435>
+  
+  <!-- importing cell -->
+  <xacro:include filename="$(find acroba_description)/urdf/imr_cell/imr_cell.xacro"/>
+  <xacro:cell prefix="" stl_file="package://acroba_description/meshes/imr_cell/imr_cell.stl">
+    <origin xyz="-0.16 0.72 -0.85" rpy="${pi/2} 0 0"/>
+  </xacro:cell>
+
+</robot>

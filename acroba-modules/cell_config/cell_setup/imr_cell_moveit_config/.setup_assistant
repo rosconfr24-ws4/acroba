@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: acroba_description
+    relative_path: urdf/imr_cell/imr_cell_with_ur5_with_gripper.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/imr_cell.srdf
+  CONFIG:
+    author_name: bastien mourin
+    author_email: bastien.mourin@sigma-clermont.fr
+    generated_timestamp: 1712134658

@@ -1,0 +1,13 @@
+<launch>
+<!--Load urdf of the robot-->
+<arg name="only_params" default="false"/>
+
+<param name="robot_description" textfile="$(find acroba_steripack_case)/urdf/steripack_multitool_robot.urdf"/>
+<param name="base_robot" type="string" value="world" />
+<param name="end_tool" type="string" value="end_tool" />
+<param name="end_drill" type="string" value="end_drill" />
+
+<group unless="$(arg only_params)">
+    <node name="steri_pipeline" pkg="acroba_steripack_case" type="sample2.py" output="screen" respawn="false"/>
+</group>
+</launch>

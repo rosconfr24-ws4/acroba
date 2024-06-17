@@ -1,0 +1,14 @@
+.git
+.vscode
+.env 
+.devcontainer
+.gitignore 
+README.md 
+Makefile
+
+docker/Dockerfile*
+scripts/
+acroba_taskplanner/.skills
+
+**/__pycache__
+*.pyc

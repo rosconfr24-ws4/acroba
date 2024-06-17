@@ -1,0 +1,42 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+      {
+        "name": "Python: Current File",
+        "type": "python",
+        "request": "launch",
+        "program": "${file}",
+        "console": "integratedTerminal",
+        "justMyCode": true, 
+        "env": {
+          "PYTHONPATH": "${workspaceFolder}/watch_assembly/:$PYTHONPATH"
+        }, 
+        //"preLaunchTask": "SetUpEnvironment"
+      }, 
+  ],
+  "inputs": [
+    {
+      "id": "package",
+      "type": "promptString",
+      "description": "Package name"
+    },
+    {
+      "id": "program",
+      "type": "promptString",
+      "description": "Program name"
+    }, 
+    {
+      "id": "ros_workspace",
+      "type": "command",
+      "command": "shellCommand.execute",
+      "args": {
+            "command": "echo ${env:WS_DIR}",                
+            "description": "location of the ros workspace?", 
+        }, 
+    }
+  ]
+}
+

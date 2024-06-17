@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro"
+       name="ur5_rg2" >
+
+ 
+  <!-- include -->
+  <xacro:include filename="$(find acroba_resources)/urdf/ur5_macro.xacro" />
+<xacro:include filename="$(find acroba_resources)/urdf/rg2_macro.xacro"/>
+  
+  <!-- instanciate -->
+  <xacro:ur5_robot prefix="" joint_limited="false"/>
+    <xacro:rg2 prefix=""/>
+  <link name="world" />
+
+  <joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link = "base_link" />
+    <origin xyz="0 0 0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+  <joint name="tool_joint" type="fixed">
+    <parent link="tool0" />
+    <child link = "base_tool" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+<!-- Disabling collision between tool and robot, maybe not necessary-->
+<disable_collision link1="wrist_3_link" link2="hand_link"/>
+</robot>

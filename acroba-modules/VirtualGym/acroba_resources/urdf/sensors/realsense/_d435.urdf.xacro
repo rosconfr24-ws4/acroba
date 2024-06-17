@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<robot name="realsense2_camera" xmlns:xacro="http://ros.org/wiki/xacro">
+ <xacro:include filename="$(find acroba_resources)/urdf/sensors/realsense/_d435_macro.xacro" /> 
+ <link name="world" />
+ <xacro:sensor_d435 name="realsense" parent="world" use_nominal_extrinsics="true" add_plug="false" use_mesh="true">
+    <origin xyz="-0.1889999955892563 -0.6474999785423279 1.906630039215088" rpy="0.0 0.4647812 0"/>
+ </xacro:sensor_d435>
+</robot>

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro"
+       name="ikor_robot" >
+
+ 
+  <!-- include -->
+  <xacro:include filename="$(find acroba_resources)/urdf/tm900_macro.xacro" />
+  <xacro:include filename="$(find acroba_resources)/urdf/support_ikor1_macro.xacro" />
+  <xacro:include filename="$(find acroba_resources)/urdf/pgc50_macro.xacro"/>
+  
+  <!-- instanciate -->
+  <xacro:tm900 prefix="" joint_limited="false"/>
+  <xacro:support_ikor1 prefix=""/>
+  <xacro:pgc50 prefix=""/>
+
+  <link name="world" />
+
+  <joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link = "base_link" />
+    <origin xyz= "0 0 0" rpy= "0 0 0"/>
+  </joint>
+
+  <joint name="tool_extension_joint" type="fixed">
+    <parent link="tool0" />
+    <child link = "extension" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+  <joint name="tool__extension_joint" type="fixed">
+    <parent link="extension_tool0" />
+    <child link = "base_tool" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+<!-- Disabling collision between tool and robot, maybe not necessary-->
+<disable_collision link1="wrist_3_link" link2="extension"/>
+<disable_collision link1="extension_tool0" link2="base_tool"/>
+
+</robot>

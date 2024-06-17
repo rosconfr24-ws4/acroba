@@ -1,0 +1,10 @@
+<launch>
+<!-- Sample with parallel gripper-->
+<arg name="tcp_ip" default="localhost"/>
+
+<include file="$(find ros_tcp_endpoint)/launch/endpoint.launch">
+    <arg name="tcp_ip" value="$(arg tcp_ip)"/>
+</include>
+
+<node name="skill_test" pkg="acroba_gym_test" type="skill_test.py" output="screen" required="true"/>
+</launch>

@@ -1,0 +1,32 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.245.2/containers/docker-existing-dockerfile
+{
+	"name": "Acroba task planner",
+	"image": "acroba/taskplanner", 
+	"workspaceMount": "source=${localWorkspaceFolder},target=/home/acroba/workspace,type=bind",
+	"workspaceFolder": "/home/acroba/workspace", 
+	"postCreateCommand": "./.devcontainer/postCreateCommand.sh", 
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [8000], 
+	"mounts": [
+		"source=${localWorkspaceFolder}/watch_assembly,target=/home/acroba/ros-workspaces/ros1-noetic/src/watch_assembly,type=bind,consistency=cached", 
+		"source=${localWorkspaceFolder}/docker/entrypoint.sh,target=/entrypoint.sh,type=bind,consistency=cached"
+	], 		
+	"customizations": {
+        "vscode": {
+            "extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"twxs.cmake",
+				// "ms-vscode.cmake-tools",
+				"ms-vscode.cpptools",
+				"ms-vscode.cpptools-extension-pack",
+				"mhutchie.git-graph",
+				"eamodio.gitlens",
+				"jan-dolejsi.pddl",
+				"augustocdias.tasks-shell-input",
+				"redhat.vscode-xml"
+			]
+        }
+	}
+}

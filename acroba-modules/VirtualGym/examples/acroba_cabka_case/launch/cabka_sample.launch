@@ -1,0 +1,14 @@
+<launch>
+<!--Load urdf of the robot-->
+<arg name="only_params" default="false"/>
+<param name="cabka_drill/robot_description" textfile="$(find acroba_cabka_case)/urdf/cabka_robot_drill_from_world.urdf"/>
+<param name="cabka_drill/base_robot" type="string" value="world" />
+<param name="cabka_drill/end_tool" type="string" value="end_tool" />
+
+<param name="cabka_cam/robot_description" textfile="$(find acroba_cabka_case)/urdf/cabka_robot_camera_from_world.urdf"/>
+<param name="cabka_cam/base_robot" type="string" value="world" />
+<param name="cabka_cam/end_tool" type="string" value="optical_frame" />
+<group unless="$(arg only_params)">
+    <node name="cabka_pipeline" pkg="acroba_cabka_case" type="cabka_sample.py" output="screen" respawn="false"/>
+</group>
+</launch>

@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+ <material name="picking_grey">
+  <color rgba="0.5 0.5 0.5 1.0"/>
+</material>
+
+<material name="picking_blue">
+  <color rgba="0.1 0.1 0.8 1.0"/>
+</material>
+	<!--Obstacles Macro-->
+	<!-- Cylinder macro-->
+<xacro:macro name="cilindro" params="suffix length radius mass ">
+	<link name = "cilindro_${suffix}">
+	<visual>
+		<origin xyz = "0 0 ${length*0.5}" rpy = "0 0 0" />
+		<geometry>
+			<cylinder length = "${length}" radius = "${radius}" />
+		</geometry>
+		<material name = "blue">
+			<color rgba = "0.0 0.0 1.0 1.0"/>
+		</material>
+	</visual>
+	<collision>
+		<origin xyz = "0 0 ${length*0.5}" rpy = "0 0 0"/>
+		<geometry>
+			<cylinder length = "${length}" radius = "${radius}" />
+		</geometry>
+	</collision>
+	<inertial>
+		<origin xyz = "0 0 0" rpy = "0 0 0"/>
+		<mass value="${mass}"/>
+		<inertia ixx="${mass*(3*radius*radius+length*length)/12}" ixy="0.0" ixz="0.0" iyy="${mass*(3*radius*radius+length*length)/12}" iyz="0.0" izz="${mass*radius*radius/12}"/>
+	</inertial>
+	</link>
+</xacro:macro>
+
+<!--cuboid macro-->
+<xacro:macro name = "cuboid" params = "suffix width depth height mass">
+	<link name = "cuboid_${suffix}">
+	<visual>
+		<origin xyz = "0 0 ${height*0.5}" rpy = "0 0 0" />
+		<geometry>
+			<box size = "${width} ${depth} ${height}" />
+		</geometry>
+		<material name = "blue">
+			<color rgba = "0.0 0.0 1.0 1.0"/>
+		</material>
+	</visual>
+	<collision>
+		<origin xyz = "0 0 ${height*0.5}" rpy = "0 0 0" />
+		<geometry>
+			<box size = "${width} ${depth} ${height}" />
+		</geometry>
+	</collision>
+	<inertial>
+		<origin xyz = "0 0 0" rpy = "0 0 0" />
+		<mass value="${mass}"/>
+		<inertia ixx="${mass*(2*depth*height)/12}" ixy="0.0" ixz="0.0" iyy="${mass*(2*height*width)/12}" iyz="0.0" izz="${mass*(2*depth*height)/12}"/>
+	</inertial>
+	</link>
+</xacro:macro>
+
+<!--cuboid invisible macro-->
+<xacro:macro name = "cuboid_invisible" params = "suffix width depth height mass">
+	<link name = "cuboid_${suffix}">
+	<collision>
+		<origin xyz = "0 0 ${height*0.5}" rpy = "0 0 0" />
+		<geometry>
+			<box size = "${width} ${depth} ${height}" />
+		</geometry>
+	</collision>
+	<inertial>
+		<origin xyz = "0 0 0" rpy = "0 0 0" />
+		<mass value="${mass}"/>
+		<inertia ixx="${mass*(2*depth*height)/12}" ixy="0.0" ixz="0.0" iyy="${mass*(2*height*width)/12}" iyz="0.0" izz="${mass*(2*depth*height)/12}"/>
+	</inertial>
+	</link>
+</xacro:macro>
+
+	<!--cube macro-->
+<xacro:macro name = "cube" params = "suffix size mass">
+	<link name = "cube_${suffix}">
+	<visual>
+		<origin xyz = "0 0 ${size*0.5}" rpy = "0 0 0" />
+		<geometry>
+			<box size = "${size} ${size} ${size}" />
+		</geometry>
+		<material name = "blue">
+			<color rgba = "0.0 0.0 1.0 1.0"/>
+		</material>
+	</visual>
+	<collision>
+		<origin xyz = "0 0 ${size*0.5}" rpy = "0 0 0" />
+		<geometry>
+			<box size = "${size} ${size} ${size}" />
+		</geometry>
+	</collision>
+	<inertial>
+		<origin xyz = "0 0 0" rpy = "0 0 0" />
+		<mass value="${mass}"/>
+		<inertia ixx="${mass*(2*size*size)/12}" ixy="0.0" ixz="0.0" iyy="${mass*(2*size*size)/12}" iyz="0.0" izz="${mass*(2*size*size)/12}"/>
+	</inertial>
+	</link>
+</xacro:macro>
+
+	<!--sphere-->
+<xacro:macro name = "ball" params = "suffix radius mass">
+	<link name = "sphere_${suffix}">
+	<visual>
+		<origin xyz = "0 0 0" rpy = "0 0 0" />
+		<geometry>
+			<sphere radius = "${radius}" />
+		</geometry>
+		<material name = "blue">
+			<color rgba = "0.0 0.0 1.0 1.0"/>
+		</material>
+	</visual>
+	<collision>
+		<origin xyz = "0 0 0" rpy = "0 0 0" />
+		<geometry>
+			<sphere radius = "${radius}" />
+		</geometry>
+	</collision>
+	<inertial>
+		<origin xyz = "0 0 0" rpy = "0 0 0" />
+		<mass value="${mass}"/>
+		<inertia ixx="${0.4*mass*radius*radius}" ixy="0.0" ixz="0.0" iyy="${0.4*mass*radius*radius}" iyz="0.0" izz="${0.4*mass*radius*radius}"/>
+	</inertial>
+	</link>
+</xacro:macro>
+
+<!--Mesh-->
+<xacro:macro name="Mesh3D" params="suffix filename scale *color mass:=1">
+	<link name="mesh_${suffix}">
+	<visual>
+		<origin xyz = "0 0 0" rpy = "0 0 0" />
+		<geometry>
+			<mesh filename = "${filename}" scale="${scale} ${scale} ${scale}" />
+		</geometry>
+		<xacro:insert_block name="color"/>
+	</visual>
+
+	<collision>
+		<origin xyz = "0 0 0" rpy = "0 0 0" />
+		<geometry>
+			<mesh filename = "${filename}" scale="${scale} ${scale} ${scale}" />
+		</geometry>
+	</collision>
+
+	<inertial>
+		<origin xyz = "0 0 0" rpy = "0 0 0" />
+		<mass value="${mass}"/>
+		<inertia ixx="${0.33*mass}" ixy="0.0" ixz="0.0" iyy="${0.33*mass}" iyz="0.0" izz="${0.33*mass}"/>
+	</inertial>
+	</link>
+</xacro:macro>
+</robot>
