@@ -14,7 +14,7 @@
         "env": {
           "PYTHONPATH": "${workspaceFolder}/watch_assembly/:$PYTHONPATH"
         }, 
-        //"preLaunchTask": "SetUpEnvironment"
+        "preLaunchTask": "SetUpEnvironment"
       }, 
   ],
   "inputs": [

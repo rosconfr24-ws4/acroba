@@ -14,8 +14,7 @@ CONTAINER_DIR=$WORKSPACE_DIR/.devcontainer
 
 if docker volume inspect "acroba_data" &> /dev/null; then        
     # read -p "copy data from acroba_data volume ? [y/N] " copy_volume
-    #copy_volume=${copy_volume:-n}
-    copy_volume="y"
+    copy_volume=${copy_volume:-n}
     if [ "${copy_volume,,}" = "y" ]; then 
         $SCRIPT_DIR/copy_volume.sh acroba_data acroba-dev_data
     fi

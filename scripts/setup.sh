@@ -109,7 +109,7 @@ if [[ "$pat" = "true" ]]; then
     check_docker
     echo "setting up git registry access"
     git_user_name=$(git config user.name)
-    docker login ghcr.io -u $git_user_name --password-stdin <<< "$PAT"
+    docker login docker.irtjv.local -u $git_user_name --password-stdin <<< "$PAT"
 fi 
 
 #==================================

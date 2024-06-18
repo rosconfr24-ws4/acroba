@@ -1,5 +1,5 @@
 
-REGISTRY_NAME ?= ghcr.io
+REGISTRY_NAME ?= docker.irtjv.local
 PROJECT_NAME=rosconfr24-ws4
 APPLICATION_NAME ?= ${REGISTRY_NAME}/${PROJECT_NAME}
 
