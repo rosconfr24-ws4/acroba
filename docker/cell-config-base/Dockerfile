@@ -14,7 +14,6 @@ RUN sudo apt-get update -y && \
 WORKDIR ${WS_DIR}
 COPY --from=acroba/skills_msgs ${WS_DIR} . 
 COPY --from=acroba/virtualgym_msgs ${WS_DIR} . 
-COPY --from=acroba/drl_skills_msgs ${WS_DIR} . 
 
 RUN sudo apt-get update && sudo apt-get upgrade -y && \
     /bin/bash -c "source /opt/ros/noetic/setup.bash && \
