@@ -1,0 +1,10 @@
+services:
+  
+  __service_name__:
+    volumes:
+      - type: bind
+        source: ../acroba-modules/__module_name__
+        target: __workspace_folder__
+        bind:
+          create_host_path: true
+

@@ -1,0 +1,67 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# catkin output
+build
+log
+install
+devel 
+
+# Visual Studio Code files
+.vscode # will keep this later for dev container setup, bug configs, etc... 
+
+# Eclipse project files
+.cproject
+.project
+.pydevproject
+
+# Python artifacts
+**/__pycache__/
+*.py[cod]
+
+sphinx_doc/_build
+
+# CLion artifacts
+.idea
+cmake-build-debug/
+
+
+# lock files. 
+.~lock.process#
+
+# config folder used to store session ssh keys
+.config
+
+# share folder 
+shared
+
+# dev container generated files. 
+.devcontainer/*
+!.devcontainer/templates/

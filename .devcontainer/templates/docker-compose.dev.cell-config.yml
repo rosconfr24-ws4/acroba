@@ -1,0 +1,11 @@
+services:
+  
+  cell-config:
+    volumes:
+      - type: bind
+        source: __cell_config_path__
+        target: __workspace_folder__
+        bind:
+          create_host_path: true
+
+

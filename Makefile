@@ -232,7 +232,7 @@ push: _push modules_push
 release: _release modules_release
 
 .PHONY: pull
-pull: checkout _pull modules_pull
+pull: _pull modules_pull
 
 .PHONY: switch 
 switch: switch_base-images modules_switch

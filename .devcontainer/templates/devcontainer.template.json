@@ -1,0 +1,6 @@
+{
+	"name": "ACROBA Platform - __service_name__",
+	"dockerComposeFile": ["../docker-compose.acroba.yml", "../docker-compose.dev.yml", "../docker-compose.devcontainer.yml"], 
+	"service": "__service_name__", 
+	"workspaceFolder": "/home/acroba/workspace" 
+}
