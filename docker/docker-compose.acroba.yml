@@ -118,5 +118,5 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s 
-      start_interval: 1s # does not seem to work! thus left interval set to 10s above...  
+      #start_interval: 1s # does not seem to work! thus left interval set to 10s above...  
 
