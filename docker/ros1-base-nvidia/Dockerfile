@@ -2,7 +2,7 @@
 # Setting up image with CUDA & Open GL Support + ROS NOETIC
 #============================================================
 
-FROM nvidia/cudagl:11.4.2-runtime-ubuntu20.04
+FROM docker.irtjv.local/dockerhub/nvidia/cudagl:11.4.2-runtime-ubuntu20.04
 
 # https://github.com/NVIDIA/nvidia-docker/issues/1632
 RUN rm /etc/apt/sources.list.d/cuda.list 

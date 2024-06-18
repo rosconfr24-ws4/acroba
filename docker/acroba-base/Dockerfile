@@ -4,11 +4,11 @@ ARG BASE_IMAGE=ros1-nvidia
 # Setting up base images 
 #-------------------------------------------------------------
 
-FROM ros:galactic-ros-base as base-ros2
+FROM docker.irtjv.local/dockerhub/ros:galactic-ros-base as base-ros2
 # fixing GPG Error (2023-11-20 https://github.com/osrf/docker_images/issues/697)
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 4B63CF8FDE49746E98FA01DDAD19BAB3CBF125EA
 
-FROM ros:noetic-ros-base as base-ros1
+FROM docker.irtjv.local/dockerhub/ros:noetic-ros-base as base-ros1
 
 FROM acroba/ros1-base-nvidia as base-ros1-nvidia
 

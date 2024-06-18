@@ -101,7 +101,7 @@ services:
 
 
   roscore:
-    image: ros:noetic-ros-core
+    image: docker.irtjv.local/dockerhub/ros:noetic-ros-core
     volumes: 
       - "logs:/home/acroba/logs"
     environment: 
