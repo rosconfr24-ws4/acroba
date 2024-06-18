@@ -60,7 +60,7 @@ cmake-build-debug/
 .config
 
 # share folder 
-shared
+shared/*
 
 # dev container generated files. 
 .devcontainer/*
