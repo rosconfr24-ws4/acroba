@@ -1,5 +1,5 @@
 [Required]
-ros_ip=192.168.28.72 
+ros_ip=localhost
 [optional]
 j1=-0.1
 j2=-1.35

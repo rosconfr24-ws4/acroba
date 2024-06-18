@@ -188,20 +188,26 @@ ifeq ($(VG),WIN)
 	@$(MAKE) -s -e start-win-vg
 else ifeq ($(VG),WSL)
 	@$(MAKE) -s -e start-wsl-vg
+else
+	@$(MAKE) -s -e start-vg_
 endif 
 
 
 .PHONY: start-win-vg
 start-win-vg: 
 	@echo "starting vg scene on windows..."
-	@sed -i "s/ros_ip=localhost/ros_ip=$$(hostname -I)/" ./acroba-modules/VirtualGym/virtual_scenes/roscon_imr_cell_win/generic_cell_Data/config.ini
+	@sed "s/ros_ip=localhost/ros_ip=$$(hostname -I)/" ./acroba-modules/VirtualGym/virtual_scenes/roscon_imr_cell_win/generic_cell_Data/config.ini.template > ./acroba-modules/VirtualGym/virtual_scenes/roscon_imr_cell_win/generic_cell_Data/config.ini
 	@./acroba-modules/VirtualGym/virtual_scenes/roscon_imr_cell_win/generic_cell.exe &
 
 .PHONY: start-wsl-vg
 start-wsl-vg: 
 	@echo "starting vg scene on wsl..."
-	@sed -i "s/ros_ip=localhost/ros_ip=$$(hostname -I)/" ./acroba-modules/VirtualGym/virtual_scenes/roscon_imr_cell/roscon_imr_cell_Data/config.ini
+	@sed "s/ros_ip=localhost/ros_ip=$$(hostname -I)/" ./acroba-modules/VirtualGym/virtual_scenes/roscon_imr_cell/roscon_imr_cell_Data/config.ini.template > ./acroba-modules/VirtualGym/virtual_scenes/roscon_imr_cell/roscon_imr_cell_Data/config.ini	
 	@./acroba-modules/VirtualGym/virtual_scenes/roscon_imr_cell/roscon_imr_cell.x86_64 &
+
+.PHONY: start-vg_
+start-vg_: 
+	@cat ./acroba-modules/VirtualGym/virtual_scenes/roscon_imr_cell/roscon_imr_cell_Data/config.ini.template > ./acroba-modules/VirtualGym/virtual_scenes/roscon_imr_cell/roscon_imr_cell_Data/config.ini	
 
 
 .PHONY: stop-dev

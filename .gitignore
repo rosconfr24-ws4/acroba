@@ -65,3 +65,6 @@ shared
 # dev container generated files. 
 .devcontainer/*
 !.devcontainer/templates/
+
+# vg config files
+acroba-modules/VirtualGym/virtual_scenes/**/config.ini
