@@ -27,6 +27,7 @@ if __name__=="__main__":
 
     root = create_naive_tree() 
     tree = py_trees.trees.BehaviourTree(root)
+    tree.setup(15)
     py_trees.logging.level = py_trees.logging.Level.INFO
 
     # Tick the tree until a terminal state is reached
