@@ -108,6 +108,15 @@ make run [<optional-arguments>]
 make run-dev [<optional-arguments>]
 ```
 
+to stop the platform: 
+```
+make stop 
+```
+or when using devcontainers
+```
+make stop-dev 
+```
+
 Optional Arguments: 
 *  `X11=(YES|NO) [default: YES]` Use X11 port forwarding or not. If not, a NoVnc server service will be started and the platform is accessible through the web browser at http://localhost:8080/
 
