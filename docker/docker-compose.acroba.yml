@@ -3,10 +3,8 @@ name: acroba
 volumes:
   data:
     name: "${PROJECT}_data"
-    external: true
   logs:
     name: "${PROJECT}_logs"
-    external: true
 
 networks:
   ros_network:
