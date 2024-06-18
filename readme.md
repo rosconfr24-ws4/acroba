@@ -80,56 +80,6 @@ https://learn.microsoft.com/en-us/windows/ai/directml/gpu-cuda-in-wsl<br>
 https://docs.nvidia.com/cuda/wsl-user-guide/index.html
 
 
-### 1.2 Git
-
-#### 1.2.1 SSH 
-
-To be able to checkout packages, you need to set up your git account to use SSH authentification. 
-
-https://github.com/settings/keys
-https://docs.github.com/en/authentication/connecting-to-github-with-ssh
-
->[!WARNING]
-> Do not use a passphrase in your ssh keys (submodules checkout will fail)!
-
-#### 1.2.2 Personal Acess Tokens  
-
-The platform images are available as packages on github. 
-To be able to pull or push/release packages from/to github it is necessary to set up PAT (Personal Access Token) authentification. 
-
-##### *Generate a git token*
-
-1. From the git user menu, go to Settings > Developper settings > Personal access tokens > Tokens (classic)
-2. Click on Generate new token menu > Generate new token (classic)
-3. check the boxes repo write:packages delete:packages
-4. Generate token, put a name and save the token somewhere. 
-
-    
-##### *Set up a git credential helper*
-
-On linux, one way is to use libsecret to store the PAT in an encrypted format: 
-```
-sudo apt-get install libsecret-1-0 libsecret-1-dev
-sudo make --directory=/usr/share/doc/git/contrib/credential/libsecret
-git config --global credential.helper /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
-``` 
-
-some other alternatives are described [here](https://stackoverflow.com/questions/46645843/where-to-store-my-git-personal-access-token)
-
-
-##### *Test the access*
-```
-docker login ghcr.io -u <Your-GitHub-Username>
-password: <enter your PAT>
-```
-
->[!WARNING]
-> if you do get some "permission denied error" with docker, you need to set docker up for non root user:<br>
-> ```
-> sudo usermod -aG docker $USER
-> ```
-> more information [here](https://docs.docker.com/engine/install/linux-postinstall/)
-
 ## **2. Installation**
 
 ```
@@ -137,6 +87,12 @@ git clone git@github.com:rosconfr24-ws4/acroba.git
 cd acroba
 make pull
 ```
+
+if you plan to use the devcontainers, you need to also run: 
+```
+make setup
+```
+This will install jq, the devcontainer/cli and nvm, npm if necessary.  
 
 ### **2. Running *
 

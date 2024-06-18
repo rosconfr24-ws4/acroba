@@ -32,7 +32,11 @@ _ABORT_ON_FAILURE ?= true
 ###################################################################################
 
 .PHONY: all 
-all: clean checkout build run 
+all: pull run
+
+.PHONY: setup
+setup: 
+	./scripts/setup.sh
 
 #-----------------------------------------------------------------------------------
 # Docker images Management
